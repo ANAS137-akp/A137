@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title id="app-title">A137 Studio</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: monospace; margin: 0; padding: 15px; }
+        .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        h2 { margin: 0; color: #58a6ff; }
+        
+        .guide-btn { background: #21262d; border: 1px solid #30363d; color: #c9d1d9; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 16px; }
+        .guide-btn:hover { background: #30363d; }
+
+        .workspace { display: flex; gap: 15px; height: 84vh; flex-wrap: wrap; position: relative; }
+        
+        .pane { flex: 1; background: #161b22; border: 1px solid #30363d; border-radius: 8px; display: flex; flex-direction: column; min-width: 300px; overflow: hidden; }
+        .pane-header { background: #21262d; padding: 10px 15px; font-weight: bold; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        
+        textarea { flex: 1; background: #0d1117; color: #58a6ff; border: none; padding: 15px; font-family: monospace; font-size: 14px; resize: none; outline: none; }
+        
+        .preview-body { flex: 1; padding: 20px; display: flex; justify-content: center; align-items: center; background: #000000; overflow: auto; position: relative; }
+        
+        #mobile-frame {
+            background: #21262d;
+            border: 2px solid #30363d; 
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            overflow-y: auto;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 340px;
+            max-height: 600px;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .action-bar { padding: 10px 15px; display: flex; gap: 10px; background: #161b22; border-top: 1px solid #30363d; }
+        button { padding: 8px 16px; background: #238636; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-family: monospace; }
+        button.secondary { background: #1f6feb; }
+        button:hover { opacity: 0.9; }
+
+        #guide-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .guide-box {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            width: 650px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+        }
+        .guide-header {
+            background: #21262d;
+            padding: 12px 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #30363d;
+        }
+        .close-guide { background: transparent; color: #ff7b72; border: none; font-size: 18px; cursor: pointer; }
+        .guide-content { padding: 20px; font-size: 13px; line-height: 1.8; overflow-y: auto; color: #c9d1d9; text-align: right; }
+        .guide-content code { background: #30363d; color: #ff7b72; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="header-bar">
+        <h2>A137 Studio</h2>
+        <button class="guide-btn" onclick="toggleGuide()">📖 دليل اللغة</button>
+    </div>
+
+    <div id="guide-modal">
+        <div class="guide-box">
+            <div class="guide-header">
+                <span>دليل لغة A137 الشامل</span>
+                <button class="close-guide" onclick="toggleGuide()">✕</button>
+            </div>
+            <div class="guide-content">
+                <p><b>1. هوية اللغة والبداية:</b><br>اسم اللغة: <b>A137</b><br>البدء: <code>!start-a137!</code> | النهاية: <code>!end!</code></p>
+                <p><b>2. إعدادات وتسمية تطبيق الويب:</b><br><code>webapp!اسم_التطبيق!</code></p>
+                <p><b>3. نظام الأشكال الهندسية والإحداثيات:</b><br>مربع/مستطيل: <code>bg#HEX(عرض.طول)</code> (مثل: <code>bg#ff0000(5.5)</code>)<br>دائرة: <code>bgo#HEX(عرض.طول)</code> (مثل: <code>bgo#00ff00(6.6)</code>)</p>
+                <p><b>4. نظام الطباعة والعرض:</b><br>إنجليزي: <code>p'نص'#HEX</code> أو <code>p#رقم#</code><br>عربي: <code>ن'نص'#HEX</code> أو <code>ن#رقم#</code></p>
+                <p><b>5. نظام المدخلات:</b><br>إنجليزي: <code>uo1 = ask'أدخل القيمة:'</code><br>عربي: <code>uo1 = س'أدخل القيمة:'</code></p>
+                <p><b>6. نظام الشروط الذكية والمنطق:</b><br>إنجليزي: <code>if#uo1# == 'قيمة' -> ...</code><br>عربي: <code>إ#uo1# == 'قيمة'o'بديل' -> ...</code><br>العكس: <code>else -> ...</code> أو <code>إلا -> ...</code></p>
+                <p><b>7. نظام التفاعل واللمس (إنجليزي حصراً):</b><br><code>C.b1'نص الزر't.b1.gt</code></p>
+                <p><b>8. نظام بوابات الدفع (إنجليزي حصراً):</b><br>تجريبي: <code>Fpay#المبلغ#'العملة'</code><br>حقيقي: <code>pay#المبلغ#'العملة'#'رابط_الدفع'</code></p>
+                <p><b>9. ربط المكتبات البرمجية:</b><br>إنجليزي: <code>pbs"رابط"</code> | عربي: <code>بمك"رابط"</code></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="workspace">
+        <div class="pane" style="flex: 1.2;">
+            <div class="pane-header">محرر الأكواد (Editor)</div>
+            <textarea id="code-input">
+!start-a137!
+webapp!متجر_A137!
+bg#ff0000(5.5)
+bgo#00ff00(4.4)
+ن'مرحباً بك في لغة A137'#ffffff
+uo1 = س'ادخل كلمة help أو دعم:'
+إ#uo1# == 'help'o'دعم' -> ن'أهلاً بك في قسم الدعم الفني!'
+إلا -> ن'تم استلام طلبك بنجاح.'
+C.b1'Click to Buy't.b1.gt
+pay#200#'USD'#'https://checkout.stripe.com'
+Fpay#50#'SAR'
+!end!
+            </textarea>
+            <div class="action-bar">
+                <button onclick="compileA137()">تشغيل المعاينة</button>
+                <button class="secondary" onclick="openFullScreen()">شاشة كاملة</button>
+            </div>
+        </div>
+
+        <div class="pane">
+            <div class="pane-header">شاشة التطبيق (جوال)</div>
+            <div class="preview-body">
+                <div id="mobile-frame">
+                    <p style="color: #8b949e; text-align: center;">اضغط تشغيل المعاينة لبدء التطبيق...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleGuide() {
+            let modal = document.getElementById('guide-modal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function runParser(code, frame, winContext = window) {
+            frame.innerHTML = '';
+            frame.style.width = '100%';
+            frame.style.height = '100%';
+            frame.style.maxWidth = '340px';
+            frame.style.maxHeight = '600px';
+
+            const lines = code.split('\n').map(l => l.trim()).filter(l => l !== '');
+            let variables = {};
+            let execute = true;
+
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i];
+
+                if (line === '!start-a137!' || line === '!end!') continue;
+
+                if (line.startsWith('webapp!')) {
+                    let title = line.split('!')[1];
+                    let titleEl = winContext.document.getElementById('app-title');
+                    if (titleEl) titleEl.innerText = title;
+                    continue;
+                }
+
+                // 1. الأشكال الهندسية: bg#HEX(W.H)
+                let shapeBoxMatch = line.match(/bg#([0-9a-fA-F]{6})\(([0-9]+)\.([0-9]+)\)/);
+                if (shapeBoxMatch && execute) {
+                    let color = '#' + shapeBoxMatch[1];
+                    let w = parseInt(shapeBoxMatch[2]) * 15;
+                    let h = parseInt(shapeBoxMatch[3]) * 15;
+                    
+                    let box = winContext.document.createElement('div');
+                    box.style.cssText = `width:${w}px; height:${h}px; background:${color}; margin:8px 0; display:inline-block;`;
+                    frame.appendChild(box);
+                    continue;
+                }
+
+                // 2. الدوائر: bgo#HEX(W.H)
+                let shapeCircleMatch = line.match(/bgo#([0-9a-fA-F]{6})\(([0-9]+)\.([0-9]+)\)/);
+                if (shapeCircleMatch && execute) {
+                    let color = '#' + shapeCircleMatch[1];
+                    let size = parseInt(shapeCircleMatch[2]) * 15;
+                    
+                    let circle = winContext.document.createElement('div');
+                    circle.style.cssText = `width:${size}px; height:${size}px; background:${color}; border-radius:50%; margin:8px 0; display:inline-block;`;
+                    frame.appendChild(circle);
+                    continue;
+                }
+
+                // 3. المدخلات (ask / س)
+                let askMatch = line.match(/([a-zA-Z0-9_]+)\s*=\s*(?:ask|س)'(.*?)'/);
+                if (askMatch && execute) {
+                    let varName = askMatch[1];
+                    let promptText = askMatch[2];
+
+                    let inputContainer = winContext.document.createElement('div');
+                    inputContainer.style.cssText = 'margin: 10px 0; background: #21262d; padding: 10px; border-radius: 6px; border: 1px solid #30363d;';
+                    
+                    let label = winContext.document.createElement('div');
+                    label.style.cssText = 'font-size: 12px; margin-bottom: 5px; color: #8b949e;';
+                    label.innerText = promptText;
+                    
+                    let inputField = winContext.document.createElement('input');
+                    inputField.type = 'text';
+                    inputField.style.cssText = 'width: 100%; background: #0d1117; color: #c9d1d9; border: 1px solid #30363d; padding: 6px; border-radius: 4px; box-sizing: border-box; font-family: monospace; outline: none;';
+                    
+                    let submitBtn = winContext.document.createElement('button');
+                    submitBtn.innerText = 'إرسال';
+                    submitBtn.style.cssText = 'margin-top: 6px; width: 100%; padding: 4px; background: #238636; border: none; color: #fff; border-radius: 4px; cursor: pointer; font-weight: bold;';
+
+                    inputContainer.appendChild(label);
+                    inputContainer.appendChild(inputField);
+                    inputContainer.appendChild(submitBtn);
+                    frame.appendChild(inputContainer);
+
+                    submitBtn.onclick = () => {
+                        variables[varName] = inputField.value;
+                        inputContainer.style.opacity = '0.7';
+                        inputField.disabled = true;
+                        submitBtn.disabled = true;
+                        submitBtn.innerText = '✓ تم';
+                    };
+                    break;
+                }
+
+                // 4. الشروط الذكية (if / إ)
+                let ifMatch = line.match(/(?:if|إ)#(.*?)#\s*==\s*(.*?)\s*->\s*(.*)/);
+                if (ifMatch && execute) {
+                    let varKey = ifMatch[1].trim();
+                    let conditionsRaw = ifMatch[2].trim();
+                    let actionCode = ifMatch[3].trim();
+
+                    let userVal = variables[varKey] || '';
+                    let possibleValues = conditionsRaw.split('o').map(v => v.trim().replace(/^['"]|['"]$/g, ''));
+
+                    if (possibleValues.includes(userVal)) {
+                        execute = true;
+                        executeLineAction(actionCode, frame, winContext);
+                    } else {
+                        execute = false;
+                    }
+                    continue;
+                }
+
+                let elseMatch = line.match(/(?:else|إلا)\s*->\s*(.*)/);
+                if (elseMatch) {
+                    let actionCode = elseMatch[1].trim();
+                    if (!execute) {
+                        execute = true;
+                        executeLineAction(actionCode, frame, winContext);
+                    } else {
+                        execute = false;
+                    }
+                    continue;
+                }
+
+                // 5. الطباعة (p / ن)
+                let printHashMatch = line.match(/^(?:p|ن)#(.*?)#$/);
+                if (printHashMatch && execute) {
+                    let pHTML = winContext.document.createElement('p');
+                    pHTML.style.color = '#c9d1d9';
+                    pHTML.innerText = printHashMatch[1];
+                    frame.appendChild(pHTML);
+                    continue;
+                }
+
+                let printTextMatch = line.match(/^(?:p|ن)'(.*?)'(?:#([0-9a-fA-F]+))?$/);
+                if (printTextMatch && execute) {
+                    let pHTML = winContext.document.createElement('p');
+                    pHTML.style.color = printTextMatch[2] ? '#' + printTextMatch[2] : '#c9d1d9';
+                    pHTML.innerText = printTextMatch[1];
+                    frame.appendChild(pHTML);
+                    continue;
+                }
+
+                // 6. نظام التفاعل واللمس (C...t...gt) - إنجليزي حصراً
+                let touchMatch = line.match(/C\.([a-zA-Z0-9_]+)'(.*?)'t\.\1\.gt/);
+                if (touchMatch && execute) {
+                    let btnId = touchMatch[1];
+                    let btnText = touchMatch[2];
+
+                    let btn = winContext.document.createElement('button');
+                    btn.id = btnId;
+                    btn.innerText = btnText;
+                    btn.style.cssText = 'width: 100%; margin: 8px 0; padding: 10px; background: #1f6feb; border: none; color: #fff; border-radius: 6px; cursor: pointer; font-weight: bold;';
+                    btn.onclick = () => alert('تم النقر على الزر: ' + btnText);
+                    frame.appendChild(btn);
+                    continue;
+                }
+
+                // 7. نظام بوابات الدفع (الحقيقي pay والتجريبي Fpay) - إنجليزي حصراً
+                let payRealMatch = line.match(/pay#([0-9]+)#'([A-Z]+)'#'(.*?)'/);
+                if (payRealMatch && execute) {
+                    let amount = payRealMatch[1];
+                    let currency = payRealMatch[2];
+                    let payUrl = payRealMatch[3];
+
+                    let payBox = winContext.document.createElement('div');
+                    payBox.style.cssText = 'background:#21262d; border:1px solid #238636; padding:12px; border-radius:8px; margin:10px 0; text-align:center;';
+                    payBox.innerHTML = `<span style="font-size:11px; color:#3fb950;">💳 بوابة الدفع الحقيقي الآمن</span><br><b style="font-size:14px;">المبلغ: ${amount} ${currency}</b><br><button id="pay-btn" style="margin-top:8px; width:100%; padding:8px; background:#238636; border:none; color:#fff; border-radius:4px; cursor:pointer; font-weight:bold;">ادفع الآن</button>`;
+                    frame.appendChild(payBox);
+
+                    setTimeout(() => {
+                        let btn = frame.querySelector('#pay-btn');
+                        if (btn) {
+                            btn.onclick = () => winContext.open(payUrl, '_blank');
+                        }
+                    }, 100);
+                    continue;
+                }
+
+                let paySandboxMatch = line.match(/Fpay#([0-9]+)#'([A-Z]+)'/);
+                if (paySandboxMatch && execute) {
+                    let amount = paySandboxMatch[1];
+                    let currency = paySandboxMatch[2];
+
+                    let payBox = winContext.document.createElement('div');
+                    payBox.style.cssText = 'background:#21262d; border:1px solid #d29922; padding:12px; border-radius:8px; margin:10px 0; text-align:center;';
+                    payBox.innerHTML = `<span style="font-size:11px; color:#d29922;">🧪 بوابة دفع تجريبية (Sandbox)</span><br><b style="font-size:14px;">المبلغ: ${amount} ${currency}</b><br><button style="margin-top:8px; width:100%; padding:8px; background:#d29922; border:none; color:#fff; border-radius:4px; cursor:pointer; font-weight:bold;" onclick="alert('تمت عملية الدفع التجريبي بنجاح!')">محاكاة الدفع</button>`;
+                    frame.appendChild(payBox);
+                    continue;
+                }
+
+                // 8. ربط المكتبات البرمجية (pbs / بمك)
+                let libMatch = line.match(/(?:pbs|بمك)"(.*?)"/);
+                if (libMatch && execute) {
+                    let script = winContext.document.createElement('script');
+                    script.src = libMatch[1];
+                    winContext.document.head.appendChild(script);
+
+                    let libNotice = winContext.document.createElement('p');
+                    libNotice.style.cssText = 'color:#58a6ff; font-size:11px; margin:4px 0;';
+                    libNotice.innerText = `📦 [تم ربط المكتبة بنجاح]`;
+                    frame.appendChild(libNotice);
+                    continue;
+                }
+            }
+        }
+
+        function executeLineAction(actionCode, frame, winContext) {
+            let printTextMatch = actionCode.match(/^(?:p|ن)'(.*?)'(?:#([0-9a-fA-F]+))?$/);
+            if (printTextMatch) {
+                let pHTML = winContext.document.createElement('p');
+                pHTML.style.color = printTextMatch[2] ? '#' + printTextMatch[2] : '#c9d1d9';
+                pHTML.innerText = printTextMatch[1];
+                frame.appendChild(pHTML);
+            }
+        }
+
+        function compileA137() {
+            const code = document.getElementById('code-input').value;
+            const frame = document.getElementById('mobile-frame');
+            runParser(code, frame);
+        }
+
+        function openFullScreen() {
+            const code = document.getElementById('code-input').value;
+            let newWindow = window.open('', '_blank');
+            
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="ar" dir="ltr">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>A137 Full Screen</title>
+                    <style>
+                        body { background: #000; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: monospace; }
+                        #mobile-frame { background: #21262d; border: 2px solid #30363d; border-radius: 24px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); overflow: auto; width: 100%; height: 100%; max-width: 340px; max-height: 600px; position: relative; box-sizing: border-box; }
+                    </style>
+                </head>
+                <body>
+                    <div id="mobile-frame"></div>
+                    <script>
+                        const code = \`${code.replace(/`/g, '\\`')}\`;
+                        ${runParser.toString()}
+                        ${executeLineAction.toString()}
+                        const frame = document.getElementById('mobile-frame');
+                        runParser(code, frame, window);
+                    <\/script>
+                </body>
+                </html>
+            `);
+            newWindow.document.close();
+        }
+    </script>
+</body>
+</html>
