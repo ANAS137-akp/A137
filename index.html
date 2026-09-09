@@ -13,140 +13,270 @@
         @media (max-width: 768px) { .layout { flex-direction: column; } }
         .panel { flex: 1; display: flex; flex-direction: column; background: #1e293b; padding: 10px; border-radius: 8px; border: 1px solid #334155; }
         .guide { flex: 0.9; background: #0b1329; border: 1px solid #1e293b; padding: 10px; border-radius: 8px; overflow-y: auto; font-size: 13px; line-height: 1.5; }
-        textarea { flex: 1; background: #0f172a; color: #38bdf8; font-family: monospace; font-size: 14px; padding: 10px; border: 1px solid #475569; border-radius: 6px; resize: none; min-height: 150px; }
-        #preview { background: #090d16; border: 1px solid #475569; border-radius: 6px; padding: 10px; flex: 1; overflow-y: auto; }
+        textarea { flex: 1; background: #0f172a; color: #38bdf8; font-family: monospace; font-size: 13px; padding: 10px; border: 1px solid #475569; border-radius: 6px; resize: none; min-height: 150px; }
+        #preview { background: #090d16; border: 1px solid #475569; border-radius: 6px; padding: 12px; flex: 1; overflow-y: auto; }
         .btn-group { display: flex; gap: 8px; margin-top: 8px; }
-        button { flex: 1; padding: 12px; font-weight: bold; cursor: pointer; border-radius: 6px; border: none; font-size: 14px; }
+        button { flex: 1; padding: 10px; font-weight: bold; cursor: pointer; border-radius: 6px; border: none; font-size: 14px; }
         .btn-prev { background: #2563eb; color: #fff; }
         .btn-down { background: #16a34a; color: #fff; }
         code { background: #1e293b; color: #38bdf8; padding: 2px 4px; border-radius: 4px; font-family: monospace; }
-        h3 { color: #38bdf8; margin: 0 0 8px 0; font-size: 16px; }
-        h4 { color: #4ade80; margin: 8px 0 4px 0; font-size: 14px; }
+        h3 { color: #38bdf8; margin: 0 0 8px 0; font-size: 15px; }
+        h4 { color: #4ade80; margin: 8px 0 4px 0; font-size: 13px; }
+        .app-box { background: #1e293b; padding: 10px; border-radius: 6px; border: 1px solid #334155; margin-bottom: 10px; }
+        .app-input { width: 100%; padding: 8px; background: #0f172a; border: 1px solid #475569; color: #fff; border-radius: 4px; margin-top: 5px; }
+        .run-btn { background: #38bdf8; color: #0f172a; border: none; padding: 8px 12px; border-radius: 4px; font-weight: bold; margin-top: 8px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h2>استوديو ومترجم لغة A137</h2>
+        <h2>استوديو لغة A137 الشامل</h2>
     </div>
     
     <div class="layout">
         <div class="guide">
-            <h3>📘 الدليل الكامل لقواعد A137</h3>
+            <h3>📘 موسوعة قواعد A137 الكاملة</h3>
             
-            <h4>1. البنية والبداية</h4>
+            <h4>1. الهوية والبداية</h4>
             • بداية الكود: <code>!start-a137!</code><br>
             • نهاية الكود: <code>!end!</code><br>
-            • اسم التطبيق: <code>webapp!اسم_تطبيقك!</code>
+            • اسم وتصدير التطبيق: <code>webapp!NAME!</code><br>
+            • التعليقات البرمجية: <code>@ النص يتم تجاهله</code>
 
-            <h4>2. الأشكال والألوان</h4>
-            • مستطيل بلون: <code>bg#COLOR(عرض.طول)</code><br>
-            مثال: <code>bg#3b82f6(15.8)</code>
+            <h4>2. الأشكال الهندسية</h4>
+            • مستطيل/مربع: <code>bg#HEX(عرض.طول)</code><br>
+            • دائرة/شكل بيضاوي: <code>bgo#HEX(عرض.طول)</code>
 
-            <h4>3. النصوص والطباعة</h4>
-            • طباعة نص عادي: <code>p'النص'</code><br>
-            • نص بلون مخصص: <code>p'النص'#HEX</code>
+            <h4>3. الطباعة والعرض (Print)</h4>
+            • طباعة نص أو أرقام: <code>p'Text'#HEX</code> أو <code>p#123#</code>
 
-            <h4>4. أنظمة الدفع مع الروابط</h4>
-            • دفع حقيقي مع رابط تحويل:<br>
-            <code>pay#المبلغ#'العملة'url"الرابط"</code><br>
-            مثال: <code>pay#100#'SAR'url"https://example.com/success"</code><br><br>
-            • دفع تجريبي مع رابط تحويل:<br>
-            <code>Fpay#المبلغ#'العملة'url"الرابط"</code>
+            <h4>4. المدخلات والمتغيرات (Ask)</h4>
+            • لاستقبال مدخلات المستخدم: <code>uo1 = ask'الرسالة'</code>
 
-            <h4>5. التفاعل والمدخلات</h4>
-            • زر تفاعلي: <code>C.[ID]'نص الزر't.[ID].gt</code>
+            <h4>5. الأحداث والتفاعل (Touch/Click)</h4>
+            • ربط العناصر بالأحداث: <code>C.[ID]'TEXT't.[ID].gt</code>
+
+            <h4>6. الشروط والمنطق</h4>
+            • صيغة المقارنة النصية: <code>*=*</code> | الرقمية: <code>#=#</code><br>
+            • الدمج والاحتمالات باختصار: <code>o'نص'</code><br>
+            • الصيغة المباشرة والسريعة:<br>
+            <code>if#uo1# == 'help'o'دعم' -> p'أهلاً بك'#00ff00</code><br>
+            <code>else -> p'لم أفهم'#ff0000</code><br>
+            • صيغة السطر والكتلة الممتدة:<br>
+            <code>if uo1*=*'anas'o' my name anas '</code><br>
+            <code>p'hello anas'</code><br>
+            <code>else:p'I didn't understand'</code>
+
+            <h4>7. بوابات الدفع مع الروابط</h4>
+            • دفع حقيقي: <code>pay#[AMOUNT]#'CURRENCY'url"LINK"</code><br>
+            • دفع تجريبي: <code>Fpay#[AMOUNT]#'CURRENCY'url"LINK"</code>
+
+            <h4>8. ربط المكتبات البرمجية</h4>
+            • بالعربي: <code>بمك"رابط_المكتبة"</code><br>
+            • بالإنجليزي: <code>pbs"رابط_المكتبة"</code>
         </div>
 
         <div class="panel">
             <textarea id="code">!start-a137!
-webapp!MyStore!
-bg#3b82f6(15.8)
-p'مرحباً بك في متجر A137'#ffffff
+webapp!ANAS137Store!
+@ تجربة الأشكال والطباعة
+bg#3b82f6(15.5)
+bgo#ff0000(5.5)
+p'مرحباً بك في تطبيق A137'#38bdf8
+
+@ نظام الأسئلة والشروط المتقدمة
+uo1 = ask'أدخل اسمك أو طلبك:'
+if#uo1# == 'anas'o'انس'o'help' -> p'تم التعرف عليك بنجاح!'#00ff00
+else -> p'عذراً، لم أفهم الأمر'#ff0000
+
+@ الأزرار وبوابات الدفع
+C.b1' اشتري ايفون 7 't.b1.gt
 pay#100#'SAR'url"https://google.com"
 Fpay#50#'USD'url"https://github.com"
-C.buyBtn' زر تفاعلي 't.buyBtn.gt
 !end!</textarea>
             <div class="btn-group">
                 <button class="btn-prev" onclick="doPreview()">معاينة النتيجة</button>
-                <button class="btn-down" onclick="doDownload()">تحميل كملف HTML</button>
+                <button class="btn-down" onclick="doDownload()">تحميل (.html)</button>
             </div>
         </div>
         
         <div class="panel">
-            <h3>شاشة المعاينة:</h3>
+            <h3>شاشة المعاينة والتفاعل:</h3>
             <div id="preview"></div>
         </div>
     </div>
 
 <script>
+let globalAST = [];
+
 function parseA137(input) {
-    let html = "";
-    let name = "A137_App";
-
-    let mName = input.match(/webapp!(.*?)!/);
-    if (mName) name = mName[1].trim();
-
     let lines = input.split('\n');
+    let ast = [];
+
     lines.forEach(line => {
+        if (line.includes('@')) line = line.split('@')[0];
         line = line.trim();
 
-        // معالجة الأشكال المربعة المستطيلة والألوان
-        if (line.startsWith('bg#')) {
-            let m = line.match(/bg#([a-fA-F0-9]{6})\((.*?)\.(.*?)\)/);
-            if (m) {
-                let hexColor = "#" + m[1];
-                let w = parseFloat(m[2]) * 10;
-                let h = parseFloat(m[3]) * 10;
-                html += '<div style="background:' + hexColor + '; width:' + w + 'px; height:' + h + 'px; margin:8px 0; border-radius:4px;"></div>';
-            }
-        } 
-        // معالجة النصوص وتغيير اللون المخصص
-        else if (line.startsWith("p'")) {
-            let s = line.indexOf("'");
-            let e = line.lastIndexOf("'");
-            if (s !== -1 && e > s) {
-                let txt = line.substring(s + 1, e);
-                let col = "#38bdf8";
-                let hexMatch = line.match(/#([a-fA-F0-9]{6})$/);
-                if (hexMatch) col = "#" + hexMatch[1];
-                html += '<p style="color:' + col + '; margin:8px 0; font-weight:bold;">' + txt + '</p>';
-            }
-        } 
-        // معالجة الدفع الحقيقي والتجريبي مع رابط الإعادة
-        else if (line.startsWith('pay#') || line.startsWith('Fpay#')) {
-            let isFake = line.startsWith('Fpay#');
-            let m = line.match(/(?:Fpay|pay)#(\d+)#'(.*?)'(?:url"(.*?)")?/);
-            if (m) {
-                let amount = m[1];
-                let curr = m[2];
-                let targetUrl = m[3] || "#";
+        if (!line || line.startsWith('!start') || line.startsWith('!end!')) return;
 
-                if (isFake) {
-                    html += '<div style="border: 1px dashed #eab308; background: #282008; padding: 10px; margin: 8px 0; border-radius: 6px;">' +
-                            '<span style="color:#eab308; font-size: 12px; font-weight:bold;">[بوابة دفع تجريبية Sandbox]</span>' +
-                            '<p style="margin: 4px 0; color:#fff;">المبلغ: <strong>' + amount + ' ' + curr + '</strong></p>' +
-                            '<button style="background:#eab308; color:#000; padding:8px 14px; border:none; border-radius:4px; cursor:pointer; font-weight:bold; width:100%; margin-top:4px;" onclick="alert(\'دفع تجريبي ناجح! سيتم تحويلك إلى: ' + targetUrl + '\'); if(\'' + targetUrl + '\' !== \'#\') window.open(\'' + targetUrl + '\', \'_blank\');">دفع تجريبي والانتقال</button>' +
-                            '</div>';
-                } else {
-                    html += '<div style="border: 1px solid #16a34a; background: #052e16; padding: 12px; margin: 10px 0; border-radius: 8px;">' +
-                            '<span style="color:#4ade80; font-size: 12px; font-weight:bold;">💳 بوابة دفع حقيقية (Live Payment)</span>' +
-                            '<p style="margin: 6px 0; font-size: 15px; color:#fff;">المبلغ المستحق: <strong>' + amount + ' ' + curr + '</strong></p>' +
-                            '<button style="background:#16a34a; color:#fff; padding:10px 18px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; width:100%;" onclick="alert(\'جاري الانتقال لصفحة الدفع وسداد ' + amount + ' ' + curr + '\'); if(\'' + targetUrl + '\' !== \'#\') window.open(\'' + targetUrl + '\', \'_blank\');">تأكيد والدفع الآن ➔</button>' +
-                            '</div>';
-                }
+        // webapp
+        if (line.startsWith('webapp!')) {
+            let m = line.match(/webapp!(.*?)!/);
+            if (m) ast.push({ type: 'appName', name: m[1] });
+        }
+        // المكتبات
+        else if (line.startsWith('بمك"') || line.startsWith('pbs"')) {
+            let m = line.match(/(?:بمك|pbs)"(.*?)"/);
+            if (m) ast.push({ type: 'lib', url: m[1] });
+        }
+        // bg
+        else if (line.startsWith('bg#')) {
+            let m = line.match(/bg#([a-fA-F0-9]{6})\((.*?)\.(.*?)\)/);
+            if (m) ast.push({ type: 'rect', color: m[1], w: m[2], h: m[3] });
+        }
+        // bgo
+        else if (line.startsWith('bgo#')) {
+            let m = line.match(/bgo#([a-fA-F0-9]{6})\((.*?)\.(.*?)\)/);
+            if (m) ast.push({ type: 'circle', color: m[1], w: m[2], h: m[3] });
+        }
+        // ask
+        else if (line.includes('= ask')) {
+            let parts = line.split('= ask');
+            let varName = parts[0].trim();
+            let prompt = parts[1].replace(/'/g, "").trim();
+            ast.push({ type: 'ask', varName, prompt });
+        }
+        // if / else المباشر مع ->
+        else if (line.startsWith('if#')) {
+            let m = line.match(/if#(.*?)#\s*==\s*(.*?)\s*->\s*(.*)/);
+            if (m) {
+                let varName = m[1];
+                let rawOptions = m[2];
+                let action = m[3];
+                let opts = rawOptions.split('o').map(s => s.replace(/'/g, '').trim());
+                ast.push({ type: 'if_arrow', varName, options: opts, action });
             }
-        } 
-        // معالجة الأزرار التفاعلية
+        }
+        else if (line.startsWith('else ->')) {
+            let action = line.replace('else ->', '').trim();
+            ast.push({ type: 'else_arrow', action });
+        }
+        // if الممتدة مع *=* أو #=#
+        else if (line.startsWith('if ')) {
+            let isString = line.includes('*=*');
+            let op = isString ? '*=*' : '#=#';
+            let parts = line.substring(3).split(op);
+            let varName = parts[0].trim();
+            let rest = parts[1].trim();
+            let matches = rest.match(/'([^']+)'/g);
+            let opts = matches ? matches.map(m => m.replace(/'/g, "").trim()) : [rest];
+            ast.push({ type: 'if_custom', varName, options: opts });
+        }
+        else if (line.startsWith('else:')) {
+            let act = line.substring(5).trim();
+            ast.push({ type: 'else_custom', action: act });
+        }
+        // p
+        else if (line.startsWith("p'") || line.startsWith("p#")) {
+            ast.push({ type: 'print', raw: line });
+        }
+        // C.[ID]'TEXT't.[ID].gt
         else if (line.startsWith('C.')) {
             let m = line.match(/C\.(.+?)'(.*?)'t\.(.+?)\.gt/);
+            if (m) ast.push({ type: 'button', id: m[1], text: m[2] });
+        }
+        // pay / Fpay
+        else if (line.startsWith('pay#') || line.startsWith('Fpay#')) {
+            ast.push({ type: 'pay', raw: line });
+        }
+    });
+
+    return ast;
+}
+
+function renderUI(ast) {
+    globalAST = ast;
+    let html = "";
+    let appTitle = "A137_App";
+
+    ast.forEach((node, idx) => {
+        if (node.type === 'appName') {
+            appTitle = node.name;
+            html += `<h4 style="color:#38bdf8; margin-top:0;">${appTitle}</h4>`;
+        }
+        else if (node.type === 'rect') {
+            html += `<div style="background:#${node.color}; width:${parseFloat(node.w)*10}px; height:${parseFloat(node.h)*10}px; margin:8px 0; border-radius:4px;"></div>`;
+        }
+        else if (node.type === 'circle') {
+            html += `<div style="background:#${node.color}; width:${parseFloat(node.w)*10}px; height:${parseFloat(node.h)*10}px; border-radius:50%; margin:8px 0;"></div>`;
+        }
+        else if (node.type === 'print') {
+            html += parsePrint(node.raw);
+        }
+        else if (node.type === 'ask') {
+            html += `<div class="app-box">
+                        <label style="color:#38bdf8; font-weight:bold;">${node.prompt}</label>
+                        <input type="text" id="input_${node.varName}" class="app-input" placeholder="اكتب هنا...">
+                        <button class="run-btn" onclick="runLogic('${node.varName}')">اختبر الشرط والمنطق</button>
+                     </div>`;
+        }
+        else if (node.type === 'button') {
+            html += `<button style="background:#2563eb; color:#fff; padding:8px 16px; border:none; border-radius:4px; cursor:pointer; margin:4px 0;" onclick="alert('تم الضغط على: ${node.id}')">${node.text}</button><br>`;
+        }
+        else if (node.type === 'pay') {
+            let isFake = node.raw.startsWith('Fpay#');
+            let m = node.raw.match(/(?:Fpay|pay)#(\d+)#'(.*?)'(?:url"(.*?)")?/);
             if (m) {
-                html += '<button style="background:#2563eb; color:#fff; padding:8px 16px; border:none; border-radius:4px; cursor:pointer; margin:4px 0;" onclick="alert(\'تم الضغط على العنصر: ' + m[1] + '\')">' + m[2] + '</button><br>';
+                let badge = isFake ? "[بوابة دفع تجريبية Sandbox]" : "💳 بوابة دفع حقيقية (Live)";
+                let color = isFake ? "#eab308" : "#16a34a";
+                let bg = isFake ? "#282008" : "#052e16";
+                html += `<div style="border:1px solid ${color}; background:${bg}; padding:10px; margin:8px 0; border-radius:6px;">
+                            <span style="color:${color}; font-size:12px; font-weight:bold;">${badge}</span>
+                            <p style="margin:4px 0;">المبلغ المستحق: <strong>${m[1]} ${m[2]}</strong></p>
+                            <button style="background:${color}; color:#fff; border:none; padding:8px 12px; border-radius:4px; font-weight:bold; cursor:pointer; width:100%;" onclick="if('${m[3]||'#'}'!='#') window.open('${m[3]}','_blank')">سداد وتأكيد الآن ➔</button>
+                         </div>`;
             }
         }
     });
 
-    return { name, html };
+    html += `<div id="output-box" style="margin-top:10px; padding:10px; background:#0f172a; border-radius:6px; min-height:30px;"></div>`;
+    return html;
+}
+
+function parsePrint(line) {
+    if (line.startsWith("p'")) {
+        let s = line.indexOf("'");
+        let e = line.lastIndexOf("'");
+        let txt = line.substring(s + 1, e);
+        let col = "#38bdf8";
+        let hexMatch = line.match(/#([a-fA-F0-9]{6})$/);
+        if (hexMatch) col = "#" + hexMatch[1];
+        return `<p style="color:${col}; font-weight:bold; margin:6px 0;">${txt}</p>`;
+    } else if (line.startsWith("p#")) {
+        let m = line.match(/p#(.*?)#/);
+        if (m) return `<p style="color:#38bdf8; font-weight:bold; margin:6px 0;">${m[1]}</p>`;
+    }
+    return '';
+}
+
+function runLogic(varName) {
+    let inputVal = document.getElementById(`input_${varName}`).value.trim().toLowerCase();
+    let outBox = document.getElementById('output-box');
+    outBox.innerHTML = "";
+    let matched = false;
+
+    globalAST.forEach(node => {
+        if ((node.type === 'if_arrow' || node.type === 'if_custom') && node.varName === varName) {
+            let isMatch = node.options.some(opt => opt.toLowerCase() === inputVal);
+            if (isMatch) {
+                matched = true;
+                if (node.action) outBox.innerHTML = parsePrint(node.action);
+            }
+        }
+        else if ((node.type === 'else_arrow' || node.type === 'else_custom') && !matched) {
+            if (node.action) outBox.innerHTML = parsePrint(node.action);
+        }
+    });
 }
 
 function doPreview() {
@@ -156,26 +286,18 @@ function doPreview() {
         box.innerHTML = '<span style="color:#ef4444;">تنبيه: الكود يفتقر لـ !start-a137! و !end!</span>';
         return;
     }
-    let res = parseA137(src);
-    box.innerHTML = '<h4 style="color:#38bdf8; margin-top:0;">' + res.name + '</h4>' + res.html;
+    let ast = parseA137(src);
+    box.innerHTML = renderUI(ast);
 }
 
 function doDownload() {
     let src = document.getElementById('code').value;
-    if (!src.includes('!start-a137!') || !src.includes('!end!')) {
-        alert('خطأ: تأكد من كتابة !start-a137! و !end!');
-        return;
-    }
-    let res = parseA137(src);
-    let doc = '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>' + res.name + '</title><style>body{background:#090d16;color:#fff;font-family:sans-serif;padding:20px;}</style></head><body><h2>' + res.name + '</h2>' + res.html + '</body></html>';
-    
+    let doc = '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>A137 App</title><style>body{background:#090d16;color:#fff;font-family:sans-serif;padding:20px;}</style></head><body>' + document.getElementById('preview').innerHTML + '</body></html>';
     let b = new Blob([doc], { type: 'text/html;charset=utf-8' });
     let a = document.createElement('a');
     a.href = URL.createObjectURL(b);
-    a.download = res.name + ".html";
-    document.body.appendChild(a);
+    a.download = "A137_App.html";
     a.click();
-    document.body.removeChild(a);
 }
 
 window.onload = doPreview;
