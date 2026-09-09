@@ -2,73 +2,79 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>A137 Studio & Guide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A137code</title>
     <style>
-        body { font-family: sans-serif; background: #0f172a; color: #fff; margin: 0; padding: 20px; display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; }
-        .layout { display: flex; flex: 1; gap: 15px; margin-top: 10px; overflow: hidden; }
-        .panel { flex: 1; display: flex; flex-direction: column; background: #1e293b; padding: 15px; border-radius: 10px; border: 1px solid #334155; }
-        .guide-panel { flex: 0.8; background: #0b1329; border: 1px solid #1e293b; padding: 15px; border-radius: 10px; overflow-y: auto; font-size: 13px; line-height: 1.6; }
-        textarea { flex: 1; background: #0f172a; color: #38bdf8; font-family: monospace; font-size: 14px; padding: 10px; border: 1px solid #475569; border-radius: 6px; resize: none; }
-        #preview { background: #090d16; border: 1px solid #475569; border-radius: 6px; padding: 15px; flex: 1; overflow-y: auto; }
-        .btns { margin-top: 10px; display: flex; gap: 10px; }
+        * { box-sizing: border-box; }
+        body { font-family: system-ui, sans-serif; background: #0f172a; color: #fff; margin: 0; padding: 15px; display: flex; flex-direction: column; height: 100vh; }
+        .header { text-align: center; margin-bottom: 10px; }
+        .header h2 { color: #38bdf8; margin: 0; }
+        .layout { display: flex; flex: 1; gap: 10px; overflow: hidden; flex-direction: row; }
+        @media (max-width: 768px) { .layout { flex-direction: column; } }
+        .panel { flex: 1; display: flex; flex-direction: column; background: #1e293b; padding: 10px; border-radius: 8px; border: 1px solid #334155; }
+        .guide { flex: 0.9; background: #0b1329; border: 1px solid #1e293b; padding: 10px; border-radius: 8px; overflow-y: auto; font-size: 13px; line-height: 1.5; }
+        textarea { flex: 1; background: #0f172a; color: #38bdf8; font-family: monospace; font-size: 14px; padding: 10px; border: 1px solid #475569; border-radius: 6px; resize: none; min-height: 150px; }
+        #preview { background: #090d16; border: 1px solid #475569; border-radius: 6px; padding: 10px; flex: 1; overflow-y: auto; }
+        .btn-group { display: flex; gap: 8px; margin-top: 8px; }
         button { flex: 1; padding: 12px; font-weight: bold; cursor: pointer; border-radius: 6px; border: none; font-size: 14px; }
         .btn-prev { background: #2563eb; color: #fff; }
         .btn-down { background: #16a34a; color: #fff; }
-        code { background: #1e293b; color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
-        h3 { color: #38bdf8; margin-top: 0; }
-        h4 { color: #4ade80; margin: 10px 0 5px 0; }
+        code { background: #1e293b; color: #38bdf8; padding: 2px 4px; border-radius: 4px; font-family: monospace; }
+        h3 { color: #38bdf8; margin: 0 0 8px 0; font-size: 16px; }
+        h4 { color: #4ade80; margin: 8px 0 4px 0; font-size: 14px; }
     </style>
 </head>
 <body>
 
-    <h2 style="margin:0; color:#38bdf8;">استوديو ومترجم لغة A137</h2>
+    <div class="header">
+        <h2>استوديو ومترجم لغة A137</h2>
+    </div>
     
     <div class="layout">
-        <!-- دليل اللغة المعروض في الواجهة -->
-        <div class="guide-panel">
-            <h3>📘 دليل قواعد لغة A137</h3>
+        <div class="guide">
+            <h3>📘 الدليل الكامل لقواعد A137</h3>
             
-            <h4>1. البنية والبادئة</h4>
+            <h4>1. البنية والبداية</h4>
             • بداية الكود: <code>!start-a137!</code><br>
             • نهاية الكود: <code>!end!</code><br>
             • اسم التطبيق: <code>webapp!اسم_تطبيقك!</code>
 
-            <h4>2. الأشكال والأبعاد</h4>
-            • مستطيل/مربع: <code>bg#COLOR(عرض.طول)</code><br>
-            مثال: <code>bg#3b82f6(15.10)</code><br>
-            • دائرة/بيضاوي: <code>bgo#COLOR(عرض.طول)</code>
+            <h4>2. الأشكال والألوان</h4>
+            • مستطيل بلون: <code>bg#COLOR(عرض.طول)</code><br>
+            مثال: <code>bg#3b82f6(15.8)</code>
 
             <h4>3. النصوص والطباعة</h4>
-            • طباعة نص: <code>p'نص الرسالة'</code><br>
-            • نص بلون خاص: <code>p'النص'#HEX</code><br>
-            مثال: <code>p'مرحباً'#ffffff</code>
+            • طباعة نص عادي: <code>p'النص'</code><br>
+            • نص بلون مخصص: <code>p'النص'#HEX</code>
 
-            <h4>4. التفاعل والأزرار</h4>
-            • زر تفاعلي: <code>C.[ID]'نص الزر't.[ID].gt</code><br>
-            مثال: <code>C.btn1' اضغط هنا 't.btn1.gt</code>
+            <h4>4. أنظمة الدفع مع الروابط</h4>
+            • دفع حقيقي مع رابط تحويل:<br>
+            <code>pay#المبلغ#'العملة'url"الرابط"</code><br>
+            مثال: <code>pay#100#'SAR'url"https://example.com/success"</code><br><br>
+            • دفع تجريبي مع رابط تحويل:<br>
+            <code>Fpay#المبلغ#'العملة'url"الرابط"</code>
 
-            <h4>5. المدخلات والشروط</h4>
-            • سؤال مدخلات: <code>uo1 = ask'أدخل اسمك:'</code><br>
-            • شرط: <code>if#var# == 'val'o'بديل' -> p'النتيجة'</code><br>
-            • شرط بديل: <code>else -> p'نص'</code>
+            <h4>5. التفاعل والمدخلات</h4>
+            • زر تفاعلي: <code>C.[ID]'نص الزر't.[ID].gt</code>
         </div>
 
-        <!-- محرر الكود -->
         <div class="panel">
             <textarea id="code">!start-a137!
-webapp!MyApp!
-bg#3b82f6(15.10)
-p'مرحباً بك في لغة A137'#ffffff
-C.btn1' اضغط هنا 't.btn1.gt
+webapp!MyStore!
+bg#3b82f6(15.8)
+p'مرحباً بك في متجر A137'#ffffff
+pay#100#'SAR'url"https://google.com"
+Fpay#50#'USD'url"https://github.com"
+C.buyBtn' زر تفاعلي 't.buyBtn.gt
 !end!</textarea>
-            <div class="btns">
+            <div class="btn-group">
                 <button class="btn-prev" onclick="doPreview()">معاينة النتيجة</button>
-                <button class="btn-down" onclick="doDownload()">تحميل كملف شغال</button>
+                <button class="btn-down" onclick="doDownload()">تحميل كملف HTML</button>
             </div>
         </div>
         
-        <!-- شاشة المعاينة -->
         <div class="panel">
+            <h3>شاشة المعاينة:</h3>
             <div id="preview"></div>
         </div>
     </div>
@@ -85,29 +91,57 @@ function parseA137(input) {
     lines.forEach(line => {
         line = line.trim();
 
+        // معالجة الأشكال المربعة المستطيلة والألوان
         if (line.startsWith('bg#')) {
             let m = line.match(/bg#([a-fA-F0-9]{6})\((.*?)\.(.*?)\)/);
             if (m) {
-                let w = parseFloat(m[2]) * 15;
-                let h = parseFloat(m[3]) * 15;
-                html += '<div style="background:#' + m[1] + '; width:' + w + 'px; height:' + h + 'px; margin:8px 0; border-radius:4px;"></div>';
+                let hexColor = "#" + m[1];
+                let w = parseFloat(m[2]) * 10;
+                let h = parseFloat(m[3]) * 10;
+                html += '<div style="background:' + hexColor + '; width:' + w + 'px; height:' + h + 'px; margin:8px 0; border-radius:4px;"></div>';
             }
-        } else if (line.startsWith("p'")) {
+        } 
+        // معالجة النصوص وتغيير اللون المخصص
+        else if (line.startsWith("p'")) {
             let s = line.indexOf("'");
             let e = line.lastIndexOf("'");
             if (s !== -1 && e > s) {
                 let txt = line.substring(s + 1, e);
                 let col = "#38bdf8";
-                if (line.includes("#")) {
-                    let p = line.split("#");
-                    if (p.length > 1 && p[p.length - 1].length === 6) col = "#" + p[p.length - 1];
-                }
-                html += '<p style="color:' + col + '; margin:8px 0;">' + txt + '</p>';
+                let hexMatch = line.match(/#([a-fA-F0-9]{6})$/);
+                if (hexMatch) col = "#" + hexMatch[1];
+                html += '<p style="color:' + col + '; margin:8px 0; font-weight:bold;">' + txt + '</p>';
             }
-        } else if (line.startsWith('C.')) {
+        } 
+        // معالجة الدفع الحقيقي والتجريبي مع رابط الإعادة
+        else if (line.startsWith('pay#') || line.startsWith('Fpay#')) {
+            let isFake = line.startsWith('Fpay#');
+            let m = line.match(/(?:Fpay|pay)#(\d+)#'(.*?)'(?:url"(.*?)")?/);
+            if (m) {
+                let amount = m[1];
+                let curr = m[2];
+                let targetUrl = m[3] || "#";
+
+                if (isFake) {
+                    html += '<div style="border: 1px dashed #eab308; background: #282008; padding: 10px; margin: 8px 0; border-radius: 6px;">' +
+                            '<span style="color:#eab308; font-size: 12px; font-weight:bold;">[بوابة دفع تجريبية Sandbox]</span>' +
+                            '<p style="margin: 4px 0; color:#fff;">المبلغ: <strong>' + amount + ' ' + curr + '</strong></p>' +
+                            '<button style="background:#eab308; color:#000; padding:8px 14px; border:none; border-radius:4px; cursor:pointer; font-weight:bold; width:100%; margin-top:4px;" onclick="alert(\'دفع تجريبي ناجح! سيتم تحويلك إلى: ' + targetUrl + '\'); if(\'' + targetUrl + '\' !== \'#\') window.open(\'' + targetUrl + '\', \'_blank\');">دفع تجريبي والانتقال</button>' +
+                            '</div>';
+                } else {
+                    html += '<div style="border: 1px solid #16a34a; background: #052e16; padding: 12px; margin: 10px 0; border-radius: 8px;">' +
+                            '<span style="color:#4ade80; font-size: 12px; font-weight:bold;">💳 بوابة دفع حقيقية (Live Payment)</span>' +
+                            '<p style="margin: 6px 0; font-size: 15px; color:#fff;">المبلغ المستحق: <strong>' + amount + ' ' + curr + '</strong></p>' +
+                            '<button style="background:#16a34a; color:#fff; padding:10px 18px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; width:100%;" onclick="alert(\'جاري الانتقال لصفحة الدفع وسداد ' + amount + ' ' + curr + '\'); if(\'' + targetUrl + '\' !== \'#\') window.open(\'' + targetUrl + '\', \'_blank\');">تأكيد والدفع الآن ➔</button>' +
+                            '</div>';
+                }
+            }
+        } 
+        // معالجة الأزرار التفاعلية
+        else if (line.startsWith('C.')) {
             let m = line.match(/C\.(.+?)'(.*?)'t\.(.+?)\.gt/);
             if (m) {
-                html += '<button style="background:#2563eb; color:#fff; padding:8px 16px; border:none; border-radius:4px; cursor:pointer;" onclick="alert(\'تم الضغط على: ' + m[1] + '\')">' + m[2] + '</button><br>';
+                html += '<button style="background:#2563eb; color:#fff; padding:8px 16px; border:none; border-radius:4px; cursor:pointer; margin:4px 0;" onclick="alert(\'تم الضغط على العنصر: ' + m[1] + '\')">' + m[2] + '</button><br>';
             }
         }
     });
@@ -119,11 +153,11 @@ function doPreview() {
     let src = document.getElementById('code').value;
     let box = document.getElementById('preview');
     if (!src.includes('!start-a137!') || !src.includes('!end!')) {
-        box.innerHTML = '<span style="color:#ef4444;">خطأ: الكود يفتقر لبادئات !start-a137! و !end!</span>';
+        box.innerHTML = '<span style="color:#ef4444;">تنبيه: الكود يفتقر لـ !start-a137! و !end!</span>';
         return;
     }
     let res = parseA137(src);
-    box.innerHTML = '<h3 style="color:#38bdf8; margin-top:0;">' + res.name + '</h3>' + res.html;
+    box.innerHTML = '<h4 style="color:#38bdf8; margin-top:0;">' + res.name + '</h4>' + res.html;
 }
 
 function doDownload() {
@@ -135,11 +169,13 @@ function doDownload() {
     let res = parseA137(src);
     let doc = '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>' + res.name + '</title><style>body{background:#090d16;color:#fff;font-family:sans-serif;padding:20px;}</style></head><body><h2>' + res.name + '</h2>' + res.html + '</body></html>';
     
-    let b = new Blob([doc], { type: 'text/html' });
+    let b = new Blob([doc], { type: 'text/html;charset=utf-8' });
     let a = document.createElement('a');
     a.href = URL.createObjectURL(b);
     a.download = res.name + ".html";
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
 }
 
 window.onload = doPreview;
