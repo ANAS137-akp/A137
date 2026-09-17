@@ -1,474 +1,287 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" id="htmlTag">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> A137 code</title>
+    <title>A137</title>
     <style>
         :root {
-            --bg-main: #0f0f1a;
-            --bg-panel: #1a1a2e;
-            --accent: #ff0055;
-            --text-color: #ffffff;
-            --border-color: #2e2e4a;
+            --bg-main: #0b0c10; --bg-panel: #1f2833;
+            --accent: #66fcf1; --text-main: #c5c6c7;
+            --border: #45a29e; --danger: #ff4c4c;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-color);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        header {
-            background: var(--bg-panel);
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        .title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: var(--accent);
-            letter-spacing: 1px;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        button.nav-btn {
-            background: #25253e;
-            color: #fff;
-            border: 1px solid var(--border-color);
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s;
-        }
-
-        button.nav-btn:hover {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
-
-        .workspace {
-            display: flex;
-            flex: 1;
-            height: calc(100vh - 60px);
-        }
-
-        .editor-container, .preview-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
-        }
-
-        .editor-container {
-            border-left: 1px solid var(--border-color);
-        }
-
-        textarea {
-            width: 100%;
-            height: 100%;
-            background: #080811;
-            color: #00ffcc;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 15px;
-            font-family: 'Consolas', 'Courier New', monospace;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            resize: none;
-            outline: none;
-        }
-
-        .preview-box {
-            width: 100%;
-            height: 100%;
-            background: #ffffff;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* Modal Overlay & Backdrop Blur */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(6px);
-            justify-content: center;
-            align-items: center;
-            z-index: 99999;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal-box {
-            background: var(--bg-panel);
-            width: 90%;
-            max-width: 750px;
-            max-height: 85vh;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            padding: 25px;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: #ff4757;
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .modal-box h2 {
-            color: var(--accent);
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-
-        .modal-box h3 {
-            color: #00ffcc;
-            margin: 18px 0 8px 0;
-        }
-
-        .modal-box ul {
-            list-style: none;
-        }
-
-        .modal-box li {
-            margin-bottom: 10px;
-            line-height: 1.6;
-            color: #d1d1e0;
-        }
-
-        .modal-box code {
-            background: #080811;
-            color: #ff79c6;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-family: monospace;
-            direction: ltr;
-            display: inline-block;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: var(--bg-main); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        
+        header { background: var(--bg-panel); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); }
+        .logo { font-size: 1.4rem; font-weight: bold; color: var(--accent); }
+        .toolbar { display: flex; gap: 8px; flex-wrap: wrap; }
+        
+        button { background: var(--bg-main); color: var(--accent); border: 1px solid var(--accent); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        button:hover { background: var(--accent); color: var(--bg-main); }
+        
+        .workspace { display: flex; flex: 1; height: calc(100vh - 60px); }
+        .panel { flex: 1; display: flex; flex-direction: column; padding: 12px; }
+        .panel.left { border-left: 2px solid var(--border); }
+        [dir="ltr"] .panel.left { border-left: none; border-right: 2px solid var(--border); }
+        
+        textarea.editor { flex: 1; background: #050505; color: #00ffcc; border: 1px solid var(--border); border-radius: 6px; padding: 15px; font-family: monospace; font-size: 1rem; line-height: 1.5; resize: none; outline: none; }
+        .preview-wrapper { flex: 1; background: #fff; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); }
+        iframe { width: 100%; height: 100%; border: none; }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(6px); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.3s; z-index: 1000; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background: var(--bg-panel); border: 2px solid var(--border); border-radius: 10px; width: 90%; max-width: 750px; max-height: 85vh; padding: 20px; overflow-y: auto; position: relative; }
+        
+        .close-btn { position: absolute; top: 12px; left: 12px; background: var(--danger); color: #fff; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; }
+        [dir="ltr"] .close-btn { left: auto; right: 12px; }
+        
+        .file-box { border: 2px dashed var(--accent); padding: 20px; text-align: center; border-radius: 6px; cursor: pointer; margin: 15px 0; }
+        #decompiledCode { width: 100%; height: 250px; background: #000; color: #00ffcc; margin-top: 10px; padding: 10px; border-radius: 6px; font-family: monospace; display: none; resize: none; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="title">A137 code IDE</div>
-        <div class="btn-group">
-            <button class="nav-btn" onclick="runCode()">▶ معاينة النتيجة</button>
-            <button class="nav-btn" onclick="downloadHTML()">💾 تحميل كـ HTML</button>
-            <button class="nav-btn" onclick="openGuide()">📖 دليل اللغة</button>
+        <div class="logo">A137 code IDE</div>
+        <div class="toolbar">
+            <button id="btnRun" onclick="runCompiler()">▶ معاينة النتيجة</button>
+            <button id="btnDownload" onclick="downloadHTML()">💾 تحميل ملف</button>
+            <button id="btnDecompile" onclick="openDecompileModal()">🔓 تفكك الملف</button>
+            <button id="btnGuide" onclick="openGuide()">📖 دليل اللغة</button>
+            <button id="btnLang" onclick="toggleLanguage()">🌐 English / عربي</button>
         </div>
     </header>
 
     <div class="workspace">
-        <div class="editor-container">
-            <textarea id="codeEditor" spellcheck="false">!start-a137!
-webapp!ANAS137 Store AI!
+        <div class="panel left">
+            <textarea id="codeEditor" class="editor" spellcheck="false">!start-a137!
+webapp!My A137 WebApp!
 
-@ === 1. ترويسة التطبيق والهوية ===
-p'مرحباً بك في محرك الذكاء الاصطناعي A137code'#ff0055
-bg#ff0055(12.1)
+@ === 1. العنوان والأشكال ===
+p"مرحباً بك في تطبيق A137 code"#ff0055
+bj#1a1a2e(100.100)%100
+bgo#00ccff(4.2)%80
 
-@ === 2. تصميم الواجهة والأشكال الهندسية ===
-p'شاشة التفاعل والأشكال:'#00ccff
-bgo#00ccff(3.3)
-bg#00ff66(5.2)
+@ === 2. الأسئلة والنظام الرياضي ===
+u1 = ask"أدخل الرقم الأول:"
+u2 = ask'أدخل الرقم الثاني:'
+Math...u1+u2=sumResult
+p"نتيجة الجمع:"#00ff00
+p"sumResult"
 
-@ === 3. نظام المدخلات (Ask) ===
-u1 = ask'أدخل سؤالك أو كلامك الموجه للذكاء الاصطناعي:'
-u2 = ask'أدخل الكلمة المستهدفة للاختبار:'
+@ === 3. الذكاء الاصطناعي ===
+u3 = ask"اكتب كلمة فيها proo للاختبار:"
+in.u3 = "proo"
+b "proo" f "Ai"
+p"النتيجة بعد تعديل الخوارزمية:"#ff00ff
+p"u3"
 
-@ === 4. خوارزميات الذكاء الاصطناعي (A137 AI Core) ===
-@ القاعدة الأولى: تكرار ليش 5 مرات يُحول لماذا إلى ليش
-if in.v 'ليش؟' 5t
-b'لماذا؟' f'ليش؟'
+@ === 4. الأزرار والبوابات ===
+cp"زر مستمر لا يختفي"gt
+p'تم ضغط الزر بنجاح!'#00ffcc
 
-@ القاعدة الثانية: تكرار كيف 3 مرات
-if in.v 'كيف' 3t
-b'كيفية' f'كيف'
+cb"زر يختفي عند الضغط"gt
+p"اختفى الزر ظهر هذا النص!"#ffaa00
 
-@ القاعدة الثالثة: معالجة طلب المساعدة
-if in.v 'مساعدة' 2t
-b'مشكلة' f'حل'
-
-@ === 5. الشروط والبدائل المتعددة باستخدام o ===
-if u1 = 'أهلا' o u1 = 'مرحبا'
-p'تم التعرف على التحية! أهلاً بك في النظام'#00ff66
-
-@ === 6. نظام التفاعل والأزرار ===
-cp'تحديث واختبار الذكاء الاصطناعي (زر مستمر)'gt
-p'تم إجراء الفحص وتحليل البيانات بنجاح!'#00ff66
-
-cb'تفعيل الترقية المتقدمة (زر يختفي)'gt
-p'تهانينا! تم فتح خصائص الترقية المتقدمة لـ A137code'#ffaa00
-
-@ === 7. بوابات الدفع الرقمية والترقية ===
-p'خيارات الاشتراك والترقية:'#ffffff
-Fpay#10.00#'USD'
-https://checkout.stripe.com.pay#50.00#'USD'
+Fpay#50.00#'USD'
+https://checkout.pay#100.00#"SAR"
 
 !end!</textarea>
         </div>
-        <div class="preview-container">
-            <div class="preview-box">
+        <div class="panel right">
+            <div class="preview-wrapper">
                 <iframe id="previewFrame"></iframe>
             </div>
         </div>
     </div>
 
-    <!-- دليل اللغة المنبثق -->
+    <!-- نافذة تفكيك الملف لاستخراج كود الـ HTML -->
+    <div class="modal-overlay" id="decompileModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('decompileModal')">✕</button>
+            <h2 id="decompTitle" style="color:var(--accent);">تفكيك واستخراج كود HTML</h2>
+            <p id="decompDesc">قم برفع أي ملف HTML لتفكيكه واستخراج كود الـ HTML الصافي منه لنسخه واستخدامه في مشاريعك:</p>
+            
+            <div class="file-box" onclick="document.getElementById('fileUpload').click()">
+                <span id="lblUpload">📄 اضغط هنا لاختيار ملف HTML</span>
+                <input type="file" id="fileUpload" accept=".html" style="display:none;" onchange="handleFileUpload(event)">
+            </div>
+            
+            <textarea id="decompiledCode" readonly></textarea>
+            <button id="btnCopyDecomp" style="display:none; margin-top:10px; width:100%;" onclick="copyDecompiled()">📋 نسخ كود الـ HTML</button>
+        </div>
+    </div>
+
+    <!-- نافذة دليل اللغة -->
     <div class="modal-overlay" id="guideModal">
-        <div class="modal-box">
-            <button class="close-btn" onclick="closeGuide()">✕ إغلاق</button>
-            <h2>دليل قواعد لغة A137 code</h2>
-
-            <h3>1. البداية وتسمية التطبيق</h3>
-            <ul>
-                <li>• <b>بداية ونهاية الكود:</b> <code>!start-a137!</code> وفي النهاية <code>!end!</code></li>
-                <li>• <b>اسم التطبيق:</b> <code>webapp!NAME!</code></li>
-            </ul>
-
-            <h3>2. خوارزميات الذكاء الاصطناعي (A137 AI)</h3>
-            <ul>
-                <li>• <b>السطر الأول (شرط التكرار):</b> <code>if in.v 'الكلمة' 5t</code> (البحث عن تكرار الكلمة 5 مرات في جميع المتغيرات المسجلة <code>in.v</code>).</li>
-                <li>• <b>السطر الثاني (أمر الاستبدال):</b> <code>b'الكلمة المرمية' f'الكلمة البديلة'</code> (حيث <code>b</code> تسبق الكلمة المُراد إزالتها، و <code>f</code> تسبق الكلمة البديلة).</li>
-            </ul>
-
-            <h3>3. الشروط والبدائل المتعددة (Logical IF / OR)</h3>
-            <ul>
-                <li>• <b>دعم البدائل:</b> <code>if u1 = 'نص1' o u1 = 'نص2'</code> (استخدام حرف <code>o</code> لدمج الاحتمالات المتعددة).</li>
-            </ul>
-
-            <h3>4. الأزرار والتفاعل</h3>
-            <ul>
-                <li>• <b>زر مستمر:</b> <code>cp'TEXT'gt</code> (ينفذ الكود البرمجي الذي تحته ولا يختفي).</li>
-                <li>• <b>زر مخفي:</b> <code>cb'TEXT'gt</code> (ينفذ الكود البرمجي الذي تحته ثم يختفي تلقائياً).</li>
-                <li>• <b>التعليقات البرمجية:</b> تبدأ بـ <code>@</code> ويتم تجنبها عند توجيه الأحداث للسطر البرمجي التالي.</li>
-            </ul>
-
-            <h3>5. الواجهة وبوابات الدفع</h3>
-            <ul>
-                <li>• <b>مستطيل / مربع:</b> <code>bg#HEX(عرض.طول)</code></li>
-                <li>• <b>دائرة / بيضاوي:</b> <code>bgo#HEX(عرض.طول)</code></li>
-                <li>• <b>طباعة نص ملون:</b> <code>p'TEXT'#HEX</code></li>
-                <li>• <b>استقبال مدخلات:</b> <code>u1 = ask'Prompt:'</code></li>
-                <li>• <b>دفع تجريبي:</b> <code>Fpay#AMOUNT#'CURRENCY'</code></li>
-                <li>• <b>دفع حقيقي:</b> <code>URL.pay#AMOUNT#'CURRENCY'</code> (يفتح في نافذة مستقلة لتفادي التعليق).</li>
-            </ul>
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('guideModal')">✕</button>
+            <h2 id="guideTitle" style="color:var(--accent); margin-bottom:15px;">دليل وقوانين لغة A137 code</h2>
+            <div id="guideBody"></div>
         </div>
     </div>
 
     <script>
-        function parseA137code(code) {
-            if (!code.includes('!start-a137!') || !code.includes('!end!')) {
-                return `<h3 style="color:red; padding:20px; font-family:sans-serif;">خطأ: يجب أن يبدأ الكود بـ !start-a137! وينتهي بـ !end!</h3>`;
+        let currentLang = 'ar';
+        const dict = {
+            ar: {
+                btnRun: "▶ معاينة النتيجة", btnDownload: "💾 تحميل ملف", btnDecompile: "🔓 تفكك الملف", btnGuide: "📖 دليل اللغة", btnLang: "🌐 English / عربي",
+                decompTitle: "تفكيك واستخراج كود HTML", decompDesc: "قم برفع أي ملف HTML لتفكيكه واستخراج كود الـ HTML الصافي منه لنسخه واستخدامه في مشاريعك:",
+                lblUpload: "📄 اضغط هنا لاختيار ملف HTML", btnCopyDecomp: "📋 نسخ كود الـ HTML", guideTitle: "دليل وقوانين لغة A137 code"
+            },
+            en: {
+                btnRun: "▶ Preview Result", btnDownload: "💾 Download File", btnDecompile: "🔓 Decompile File", btnGuide: "📖 Language Guide", btnLang: "🌐 عربي / English",
+                decompTitle: "Decompile & Extract HTML Code", decompDesc: "Upload any HTML file to extract pure HTML code for your projects:",
+                lblUpload: "📄 Click here to select HTML file", btnCopyDecomp: "📋 Copy HTML Code", guideTitle: "A137 Code Language Rules"
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            document.getElementById('htmlTag').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            for (let id in dict[currentLang]) {
+                let el = document.getElementById(id);
+                if (el) el.innerText = dict[currentLang][id];
+            }
+            renderGuide();
+        }
+
+        function openGuide() { renderGuide(); document.getElementById('guideModal').classList.add('active'); }
+        function openDecompileModal() { document.getElementById('decompileModal').classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        // تفكيك وقراءة ملف ה-HTML واستخراج الكود
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                const textArea = document.getElementById('decompiledCode');
+                const btnCopy = document.getElementById('btnCopyDecomp');
+                
+                textArea.style.display = 'block';
+                textArea.value = content; // استخراج كود الـ HTML بالكامل
+                btnCopy.style.display = 'block';
+            };
+            reader.readAsText(file);
+        }
+
+        function copyDecompiled() {
+            const txt = document.getElementById('decompiledCode');
+            txt.select();
+            document.execCommand('copy');
+            alert(currentLang === 'ar' ? "تم نسخ كود الـ HTML بنجاح!" : "HTML code copied successfully!");
+        }
+
+        function compileA137(sourceCode) {
+            if (!sourceCode.includes('!start-a137!') || !sourceCode.includes('!end!')) {
+                return `<h3 style="color:red; text-align:center;">Error: Missing !start-a137! or !end!</h3>`;
             }
 
-            let appName = "A137 code Application";
-            const appMatch = code.match(/webapp!(.*?!)/);
+            let appName = "A137 App";
+            const appMatch = sourceCode.match(/webapp!(.*?!)/);
             if (appMatch) appName = appMatch[1].replace('!', '');
 
-            const lines = code.split('\n');
-            let bodyHTML = '';
-            let scriptJS = `
-                let A137Vars = {};
+            const lines = sourceCode.split('\n');
+            let htmlBody = '';
+            let jsLogic = `let memory = {};\n`;
 
-                function handleBtnClick(btn, hideSelf) {
-                    if (hideSelf) btn.style.display = 'none';
-                    let next = btn.nextElementSibling;
-                    while (next) {
-                        if (next.tagName !== 'BR' && next.nodeType === 1 && !next.classList.contains('a137-comment')) {
-                            next.style.display = 'block';
-                            break;
-                        }
-                        next = next.nextElementSibling;
-                    }
-                }
+            jsLogic += `function evalM(eq) {
+                try {
+                    return eval(eq.replace(/([a-zA-Z0-9_]+)/g, m => memory[m] !== undefined ? memory[m] : m).replace(/\\^/g, '**').replace(/÷/g, '/'));
+                } catch(e) { return 0; }
+            }\n`;
 
-                function setVar(varName, promptText) {
-                    let val = prompt(promptText);
-                    if (val !== null) {
-                        A137Vars[varName] = val;
-                        let el = document.getElementById('var-disp-' + varName);
-                        if (el) el.innerText = val;
-                        runA137AICore();
-                    }
-                }
-            `;
-
-            let aiRules = [];
-            let isPreviousBtn = false;
+            let isNextHidden = false;
 
             for (let i = 0; i < lines.length; i++) {
-                let trimmed = lines[i].trim();
+                let line = lines[i].trim();
+                if (!line || line.startsWith('!start') || line.startsWith('!end') || line.startsWith('webapp!')) continue;
+                if (line.startsWith('@')) continue;
 
-                if (!trimmed || trimmed.startsWith('!start-a137!') || trimmed.startsWith('!end!') || trimmed.startsWith('webapp!')) {
+                let disp = isNextHidden ? 'display:none;' : 'display:block;';
+                if (isNextHidden) isNextHidden = false;
+
+                // 1. Ask Input
+                let askMatch = line.match(/^(\w+)\s*=\s*ask(['"])(.*?)\2/);
+                if (askMatch) {
+                    let [, vName, , promptTxt] = askMatch;
+                    htmlBody += `<div style="margin:10px 0; ${disp}">
+                        <button onclick="let r=prompt('${promptTxt}'); if(r){ memory['${vName}']=r; document.getElementById('v_${vName}').innerText=r; }" style="padding:6px 12px; cursor:pointer;">${promptTxt}</button>
+                        <span id="v_${vName}" style="margin:0 10px; font-weight:bold; color:#00ffcc;"></span>
+                    </div>\n`;
                     continue;
                 }
 
-                // التعليقات
-                if (trimmed.startsWith('@')) {
-                    bodyHTML += `<div class="a137-comment" style="display:none;"><!-- ${trimmed} --></div>\n`;
+                // 2. Print
+                let pMatch = line.match(/^p(['"])(.*?)\1(?:#([0-9a-fA-F]{3,6}))?/);
+                if (pMatch) {
+                    let [, , txt, color] = pMatch;
+                    let c = color ? `color:#${color};` : 'color:#000;';
+                    htmlBody += `<div style="${c} font-size:1.1rem; margin:5px 0; ${disp}" id="p_${i}">${txt}</div>\n`;
+                    jsLogic += `if(memory['${txt}'] !== undefined) { document.getElementById('p_${i}').innerText = memory['${txt}']; }\n`;
                     continue;
                 }
 
-                // فحص قواعد الذكاء الاصطناعي (مكونة من سطرين)
-                let aiMatch = trimmed.match(/^if\s+in\.(\w+)\s+'([^']+)'\s+(\d+)t/i);
-                if (aiMatch) {
-                    let [, targetScope, triggerWord, countReq] = aiMatch;
-                    if (i + 1 < lines.length) {
-                        let nextLine = lines[i + 1].trim();
-                        let actionMatch = nextLine.match(/^b'([^']+)'\s+f'([^']+)'/i);
-                        if (actionMatch) {
-                            let [, oldWord, newWord] = actionMatch;
-                            aiRules.push({
-                                scope: targetScope,
-                                trigger: triggerWord,
-                                count: parseInt(countReq, 10),
-                                oldW: oldWord,
-                                newW: newWord
-                            });
-                            i++; // تجاوز السطر الثاني
-                            continue;
-                        }
+                // 3. Backgrounds (bj, bjo, bg, bgo) with Opacity %
+                let shapeMatch = line.match(/^(?:#([0-9a-fA-F]{3,6})#(bg|bgo|bj|bjo)|(bg|bgo|bj|bjo)#([0-9a-fA-F]{3,6}))\(([\d.]+)\.([\d.]+)\)(?:%(\d+))?/i);
+                if (shapeMatch) {
+                    let hex = shapeMatch[1] || shapeMatch[4];
+                    let cmd = (shapeMatch[2] || shapeMatch[3]).toLowerCase();
+                    let w = shapeMatch[5], h = shapeMatch[6];
+                    let op = shapeMatch[7] ? (parseInt(shapeMatch[7])/100) : 1;
+                    let rad = (cmd === 'bgo' || cmd === 'bjo') ? '50%' : '4px';
+                    let pos = (cmd === 'bj' || cmd === 'bjo') ? 'position:absolute; z-index:-1;' : 'position:relative; margin:8px 0;';
+                    
+                    htmlBody += `<div style="background:#${hex}; width:${w * 25}px; height:${h * 25}px; border-radius:${rad}; opacity:${op}; ${pos} ${disp}"></div>\n`;
+                    continue;
+                }
+
+                // 4. Buttons (cp, cb)
+                let btnMatch = line.match(/^c(b|p)(['"])(.*?)\2gt/i);
+                if (btnMatch) {
+                    let [, type, , txt] = btnMatch;
+                    let isCb = (type.toLowerCase() === 'b');
+                    htmlBody += `<button onclick="this.nextElementSibling.style.display='block'; ${isCb ? "this.style.display='none';" : ""}" style="padding:8px 16px; margin:8px 0; cursor:pointer; font-weight:bold;">${txt}</button>\n`;
+                    isNextHidden = true;
+                    continue;
+                }
+
+                // 5. Math
+                let mathMatch = line.match(/^Math\.\.\.(.+?)([\+\-\*\÷\^])(.+?)=(.+)/i);
+                if (mathMatch) {
+                    let [, l, op, r, resVar] = mathMatch;
+                    jsLogic += `memory['${resVar}'] = evalM('${l} ${op} ${r}');\n`;
+                    continue;
+                }
+
+                // 6. AI Core (b/f)
+                let aiMatch1 = line.match(/^in\.([a-zA-Z0-9_]+)\s*=\s*(['"])(.*?)\2/i);
+                if (aiMatch1 && i + 1 < lines.length) {
+                    let aiMatch2 = lines[i+1].trim().match(/^b\s*(['"])(.*?)\1\s*f\s*(['"])(.*?)\3/i);
+                    if (aiMatch2) {
+                        let [, target, , trigger] = aiMatch1;
+                        let [, , oldW, , newW] = aiMatch2;
+                        jsLogic += `if(memory['${target}'] && memory['${target}'].includes('${trigger}')) { memory['${target}'] = memory['${target}'].replace(new RegExp('${oldW}', 'g'), '${newW}'); }\n`;
+                        i++;
+                        continue;
                     }
                 }
 
-                let isActionTarget = isPreviousBtn;
-                let displayStyle = isActionTarget ? 'display:none;' : 'display:block;';
-                if (isPreviousBtn) isPreviousBtn = false;
-
-                // أزرار الأحداث cb و cp
-                let cbMatch = trimmed.match(/^cb'([^']+)'gt/i);
-                let cpMatch = trimmed.match(/^cp'([^']+)'gt/i);
-                if (cbMatch || cpMatch) {
-                    let text = cbMatch ? cbMatch[1] : cpMatch[1];
-                    let isCb = !!cbMatch;
-                    bodyHTML += `<button onclick="handleBtnClick(this, ${isCb})" style="padding:8px 16px; margin:6px 0; cursor:pointer; font-weight:bold;">${text}</button><br>\n`;
-                    isPreviousBtn = true;
+                // 7. Payments
+                let payR = line.match(/^(https?:\/\/[^\s]+)\.pay#([\d.]+)#(['"])([A-Za-z]+)\3/);
+                if (payR) {
+                    htmlBody += `<button onclick="window.open('${payR[1]}', '_blank')" style="background:#007bff; color:#fff; border:none; padding:8px 14px; border-radius:4px; margin:5px 0; cursor:pointer; ${disp}">دفع حقيقي (${payR[2]} ${payR[4]}) ↗</button>\n`;
                     continue;
                 }
-
-                // الشروط مع دعم o
-                let ifMatch = trimmed.match(/^if\s+(.+)/i);
-                if (ifMatch) {
-                    let condStr = ifMatch[1];
-                    bodyHTML += `<!-- condition: ${condStr} -->\n`;
-                    continue;
-                }
-
-                // رسم مربع / مستطيل
-                let bgMatch = trimmed.match(/^bg#([0-9a-fA-F]{3,6})\((\d+(?:\.\d+)?)\.(\d+(?:\.\d+)?)\)/);
-                if (bgMatch) {
-                    let [, hex, w, h] = bgMatch;
-                    bodyHTML += `<div style="background:#${hex}; width:${w * 25}px; height:${h * 25}px; border-radius:4px; margin:6px 0; ${displayStyle}"></div>\n`;
-                    continue;
-                }
-
-                // رسم دائرة / بيضاوي
-                let bgoMatch = trimmed.match(/^bgo#([0-9a-fA-F]{3,6})\((\d+(?:\.\d+)?)\.(\d+(?:\.\d+)?)\)/);
-                if (bgoMatch) {
-                    let [, hex, w, h] = bgoMatch;
-                    bodyHTML += `<div style="background:#${hex}; width:${w * 25}px; height:${h * 25}px; border-radius:50%; margin:6px 0; ${displayStyle}"></div>\n`;
-                    continue;
-                }
-
-                // طباعة نصوص ملونة
-                let pMatch = trimmed.match(/^p'([^']*)'(#[0-9a-fA-F]{3,6})?/);
-                if (pMatch) {
-                    let [, text, color] = pMatch;
-                    let colorCss = color ? `color:${color};` : 'color:#000;';
-                    bodyHTML += `<div style="${colorCss} font-size:1.1rem; font-weight:500; margin:6px 0; ${displayStyle}">${text}</div>\n`;
-                    continue;
-                }
-
-                // مدخلات ask
-                let askMatch = trimmed.match(/^(\w+)\s*=\s*ask'([^']+)'/);
-                if (askMatch) {
-                    let [, varName, promptText] = askMatch;
-                    bodyHTML += `
-                        <div style="margin:8px 0; ${displayStyle}">
-                            <button onclick="setVar('${varName}', '${promptText}')" style="padding:6px 12px; cursor:pointer;">${promptText}</button>
-                            <span id="var-disp-${varName}" style="font-weight:bold; margin-right:10px; color:#007bff;"></span>
-                        </div>\n`;
-                    continue;
-                }
-
-                // دفع تجريبي
-                let fpayMatch = trimmed.match(/^Fpay#([\d.]+)#'([A-Za-z]+)'/);
-                if (fpayMatch) {
-                    let [, amount, curr] = fpayMatch;
-                    bodyHTML += `<button onclick="alert('عملية دفع تجريبية ناجحة بمبلغ: ${amount} ${curr}')" style="background:#28a745; color:white; border:none; padding:8px 16px; border-radius:4px; margin:6px 0; cursor:pointer; ${displayStyle}">دفع تجريبي (${amount} ${curr})</button><br>\n`;
-                    continue;
-                }
-
-                // دفع حقيقي
-                let payMatch = trimmed.match(/^(https?:\/\/[^\s]+)\.pay#([\d.]+)#'([A-Za-z]+)'/);
-                if (payMatch) {
-                    let [, url, amount, curr] = payMatch;
-                    bodyHTML += `<button onclick="window.open('${url}', '_blank')" style="background:#007bff; color:white; border:none; padding:8px 16px; border-radius:4px; margin:6px 0; cursor:pointer; ${displayStyle}">دفع حقيقي (${amount} ${curr}) ↗</button><br>\n`;
+                let payF = line.match(/^Fpay#([\d.]+)#(['"])([A-Za-z]+)\2/);
+                if (payF) {
+                    htmlBody += `<button onclick="alert('دفع تجريبي: ${payF[1]} ${payF[3]}')" style="background:#28a745; color:#fff; border:none; padding:8px 14px; border-radius:4px; margin:5px 0; cursor:pointer; ${disp}">دفع تجريبي (${payF[1]} ${payF[3]})</button>\n`;
                     continue;
                 }
             }
-
-            // بناء دالة معالجة الذكاء الاصطناعي داخل الكود المخرج
-            scriptJS += `
-                function runA137AICore() {
-                    let rules = ${JSON.stringify(aiRules)};
-                    rules.forEach(rule => {
-                        let keys = rule.scope === 'v' ? Object.keys(A137Vars) : [rule.scope];
-                        keys.forEach(k => {
-                            if (A137Vars[k]) {
-                                let count = (A137Vars[k].match(new RegExp(rule.trigger, 'g')) || []).length;
-                                if (count >= rule.count) {
-                                    A137Vars[k] = A137Vars[k].replace(new RegExp(rule.oldW, 'g'), rule.newW);
-                                    let disp = document.getElementById('var-disp-' + k);
-                                    if (disp) disp.innerText = A137Vars[k];
-                                }
-                            }
-                        });
-                    });
-                }
-            `;
 
             return `<!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -476,23 +289,85 @@ https://checkout.stripe.com.pay#50.00#'USD'
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${appName}</title>
-    <meta name="description" content="تم الإنشاء والتطوير بلغة A137 code">
-    <meta name="robots" content="index, follow">
-    <style>
-        body { font-family: system-ui, -apple-system, sans-serif; padding: 20px; background: #ffffff; color: #111; }
-        button { font-family: inherit; }
-    </style>
+    <meta name="description" content="Generated by A137 code">
 </head>
 <body>
-    ${bodyHTML}
-    <script>${scriptJS}<\/script>
+    ${htmlBody}
+    <script>${jsLogic}<\/script>
 </body>
 </html>`;
         }
 
-        function runCode() {
+        function renderGuide() {
+            const guide = document.getElementById('guideBody');
+            if (currentLang === 'ar') {
+                guide.innerHTML = `
+                    <h3>1. الهيكل الأساسي</h3>
+                    <p>• بداية التطبيق: <code>!start-a137!</code> وفي النهاية: <code>!end!</code></p>
+                    <p>• تسمية التطبيق: <code>webapp!اسم_التطبيق!</code></p>
+                    
+                    <h3>2. مرونة علامات التنصيص</h3>
+                    <p>• تقبل اللغة علامات التنصيص المفردة <code>' '</code> والمزدوجة <code>" "</code> تبادلياً في كافة الأوامر بلا استثناء.</p>
+                    
+                    <h3>3. الخلفيات الشفافة والمطلقة (bj / bg)</h3>
+                    <p>• <b>bg / bgo:</b> أشكال هندسية عادية (مربع / دائري).</p>
+                    <p>• <b>bj / bjo:</b> خلفيات مطلقة تقع خلف جميع العناصر ولا تغطي الأزرار والنصوص.</p>
+                    <p>• <b>دعم الشفافية (%):</b> كتابة نسبة الشفافية بالنهاية مثل <code>%50</code>.</p>
+                    <p>• <b>مرونة الترتيب:</b> تقبل طريقتين كتابة: <code>bj#HEX(1.1)%50</code> أو <code>#HEX#bj(1.1)%50</code>.</p>
+                    
+                    <h3>4. النظام الرياضي المتقدم</h3>
+                    <p>• تبدأ الأوامر الرياضية بـ: <code>Math...x+y=z</code></p>
+                    <p>• العمليات المدعومة: <code>+</code> (جمع)، <code>-</code> (طرح)، <code>*</code> (ضرب)، <code>÷</code> (قسمة)، <code>^</code> (أسس).</p>
+                    
+                    <h3>5. خوارزميات الذكاء الاصطناعي (AI)</h3>
+                    <p>• السطر الأول (النطاق والشرط): <code>in.v = "الكلمة"</code></p>
+                    <p>• السطر الثاني (الاستبدال الجذري): <code>b "القديمة" f "الجديدة"</code> (يشترط تنوع الأحرف الكبيرة والصغيرة في الكلمة الجديدة).</p>
+                    
+                    <h3>6. الأزرار والحفز Toggles</h3>
+                    <p>• <b>زر مستمر:</b> <code>cp"النص"gt</code> (ينفذ ما تحته ولا يختفي).</p>
+                    <p>• <b>زر مخفي:</b> <code>cb"النص"gt</code> (ينفذ ما تحته ويختفي فوراً).</p>
+                    
+                    <h3>7. بوابات الدفع</h3>
+                    <p>• <b>دفع تجريبي:</b> <code>Fpay#10.00#"USD"</code></p>
+                    <p>• <b>دفع حقيقي:</b> <code>https://checkout.pay#100.00#"SAR"</code> (يفتح برابط خارجي لحماية الأداء).</p>
+                `;
+            } else {
+                guide.innerHTML = `
+                    <h3>1. Basic Structure</h3>
+                    <p>• Start: <code>!start-a137!</code> | End: <code>!end!</code></p>
+                    <p>• WebApp Name: <code>webapp!AppName!</code></p>
+                    
+                    <h3>2. Quotation Flexibility</h3>
+                    <p>• Supports single <code>' '</code> and double <code>" "</code> quotes interchangeably in all commands.</p>
+                    
+                    <h3>3. Absolute & Transparent Backgrounds</h3>
+                    <p>• <b>bg / bgo:</b> Standard shapes (box / circle).</p>
+                    <p>• <b>bj / bjo:</b> Absolute background layer placed behind elements.</p>
+                    <p>• <b>Opacity Support (%):</b> Add opacity at the end e.g., <code>%50</code>.</p>
+                    <p>• <b>Flexible Ordering:</b> Accepts both <code>bj#HEX(1.1)%50</code> or <code>#HEX#bj(1.1)%50</code>.</p>
+                    
+                    <h3>4. Math System</h3>
+                    <p>• Math syntax starts with: <code>Math...x+y=z</code></p>
+                    <p>• Supported Operators: <code>+</code>, <code>-</code>, <code>*</code>, <code>÷</code>, and <code>^</code> (power).</p>
+                    
+                    <h3>5. AI Core Algorithm</h3>
+                    <p>• Line 1: <code>in.v = "word"</code></p>
+                    <p>• Line 2: <code>b "oldWord" f "newWord"</code> (destructive replacement with mixed-case requirement).</p>
+                    
+                    <h3>6. Interactive Buttons</h3>
+                    <p>• <b>Persistent Button:</b> <code>cp"Text"gt</code></p>
+                    <p>• <b>Auto-hiding Button:</b> <code>cb"Text"gt</code></p>
+                    
+                    <h3>7. Payment Integration</h3>
+                    <p>• <b>Sandbox:</b> <code>Fpay#10.00#"USD"</code></p>
+                    <p>• <b>Real Payment:</b> <code>URL.pay#100.00#"SAR"</code> (Opens in a new tab).</p>
+                `;
+            }
+        }
+
+        function runCompiler() {
             const code = document.getElementById('codeEditor').value;
-            const compiled = parseA137code(code);
+            const compiled = compileA137(code);
             const iframe = document.getElementById('previewFrame');
             iframe.contentWindow.document.open();
             iframe.contentWindow.document.write(compiled);
@@ -501,7 +376,7 @@ https://checkout.stripe.com.pay#50.00#'USD'
 
         function downloadHTML() {
             const code = document.getElementById('codeEditor').value;
-            const compiled = parseA137code(code);
+            const compiled = compileA137(code);
             const blob = new Blob([compiled], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -511,15 +386,7 @@ https://checkout.stripe.com.pay#50.00#'USD'
             URL.revokeObjectURL(url);
         }
 
-        function openGuide() {
-            document.getElementById('guideModal').classList.add('active');
-        }
-
-        function closeGuide() {
-            document.getElementById('guideModal').classList.remove('active');
-        }
-
-        window.onload = runCode;
+        window.onload = runCompiler;
     </script>
 </body>
-</html>
+    </html> 
