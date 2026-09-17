@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A137</title>
+    
+    <!-- صورة وأيقونة الموقع في التبويب (Favicon) -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" type="image/png">
+    
     <style>
         :root {
             --bg-main: #0b0c10; --bg-panel: #1f2833;
@@ -14,7 +18,8 @@
         body { background: var(--bg-main); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
         header { background: var(--bg-panel); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); }
-        .logo { font-size: 1.4rem; font-weight: bold; color: var(--accent); }
+        .logo { font-size: 1.4rem; font-weight: bold; color: var(--accent); display: flex; align-items: center; gap: 10px; }
+        .logo img { width: 28px; height: 28px; }
         .toolbar { display: flex; gap: 8px; flex-wrap: wrap; }
         
         button { background: var(--bg-main); color: var(--accent); border: 1px solid var(--accent); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
@@ -31,19 +36,29 @@
         
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(6px); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.3s; z-index: 1000; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: var(--bg-panel); border: 2px solid var(--border); border-radius: 10px; width: 90%; max-width: 750px; max-height: 85vh; padding: 20px; overflow-y: auto; position: relative; }
+        .modal-content { background: var(--bg-panel); border: 2px solid var(--border); border-radius: 10px; width: 90%; max-width: 800px; max-height: 85vh; padding: 20px; overflow-y: auto; position: relative; }
         
         .close-btn { position: absolute; top: 12px; left: 12px; background: var(--danger); color: #fff; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; }
         [dir="ltr"] .close-btn { left: auto; right: 12px; }
         
         .file-box { border: 2px dashed var(--accent); padding: 20px; text-align: center; border-radius: 6px; cursor: pointer; margin: 15px 0; }
         #decompiledCode { width: 100%; height: 250px; background: #000; color: #00ffcc; margin-top: 10px; padding: 10px; border-radius: 6px; font-family: monospace; display: none; resize: none; }
+        
+        .guide-section { margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 12px; }
+        .guide-section h3 { color: var(--accent); margin-bottom: 8px; font-size: 1.1rem; }
+        .guide-section ul { list-style-type: disc; padding-right: 20px; }
+        [dir="ltr"] .guide-section ul { padding-right: 0; padding-left: 20px; }
+        .guide-section li { margin-bottom: 6px; line-height: 1.5; }
+        code { background: #000; color: #00ffcc; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.95rem; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">A137 code IDE</div>
+        <div class="logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="Logo">
+            A137 code IDE
+        </div>
         <div class="toolbar">
             <button id="btnRun" onclick="runCompiler()">▶ معاينة النتيجة</button>
             <button id="btnDownload" onclick="downloadHTML()">💾 تحميل ملف</button>
@@ -55,39 +70,36 @@
 
     <div class="workspace">
         <div class="panel left">
-            <textarea id="codeEditor" class="editor" spellcheck="false">!start-a137!
-webapp!My A137 WebApp!
+            <textarea id="codeEditor" class="editor" spellcheck="false">webapp!My Direct App!
 
-@ === 1. العنوان والأشكال ===
-p"مرحباً بك في تطبيق A137 code"#ff0055
-bj#1a1a2e(100.100)%100
-bgo#00ccff(4.2)%80
+@ === 1. صور وأيقونات ===
+p"تطبيق A137 الشامل"#5865F2
+img"https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png"#2.2
 
-@ === 2. الأسئلة والنظام الرياضي ===
+@ === 2. الأزرار الموجهة للروابط ===
+cp"زر مستمر يفتح ديسكورد"gt"https://discord.com"
+cb"زر مخفي يفتح يوتيوب ويختفي"gt"https://youtube.com"
+
+@ === 3. خلفيات مطلقة ===
+bj#1a1a2e(12.12)%100
+
+@ === 4. المدخلات والحسابات ===
 u1 = ask"أدخل الرقم الأول:"
-u2 = ask'أدخل الرقم الثاني:'
-Math...u1+u2=sumResult
-p"نتيجة الجمع:"#00ff00
-p"sumResult"
+u2 = ask"أدخل الرقم الثاني:"
+Math...u1+u2=total
+p"الناتج النهائي:"#00ff00
+p"total"
 
-@ === 3. الذكاء الاصطناعي ===
-u3 = ask"اكتب كلمة فيها proo للاختبار:"
+@ === 5. خوارزمية الذكاء الاصطناعي ===
+u3 = ask"اكتب كلمة بها proo:"
 in.u3 = "proo"
-b "proo" f "Ai"
-p"النتيجة بعد تعديل الخوارزمية:"#ff00ff
+b "proo" f "AiEngine"
+p"نتيجة المعالجة:"#ff00ff
 p"u3"
 
-@ === 4. الأزرار والبوابات ===
-cp"زر مستمر لا يختفي"gt
-p'تم ضغط الزر بنجاح!'#00ffcc
-
-cb"زر يختفي عند الضغط"gt
-p"اختفى الزر ظهر هذا النص!"#ffaa00
-
-Fpay#50.00#'USD'
-https://checkout.pay#100.00#"SAR"
-
-!end!</textarea>
+@ === 6. بوابات الدفع ===
+Fpay#25.00#"USD"
+https://checkout.pay#100.00#"SAR"</textarea>
         </div>
         <div class="panel right">
             <div class="preview-wrapper">
@@ -96,7 +108,7 @@ https://checkout.pay#100.00#"SAR"
         </div>
     </div>
 
-    <!-- نافذة تفكيك الملف لاستخراج كود الـ HTML -->
+    <!-- نافذة تفكيك الملف -->
     <div class="modal-overlay" id="decompileModal">
         <div class="modal-content">
             <button class="close-btn" onclick="closeModal('decompileModal')">✕</button>
@@ -117,7 +129,7 @@ https://checkout.pay#100.00#"SAR"
     <div class="modal-overlay" id="guideModal">
         <div class="modal-content">
             <button class="close-btn" onclick="closeModal('guideModal')">✕</button>
-            <h2 id="guideTitle" style="color:var(--accent); margin-bottom:15px;">دليل وقوانين لغة A137 code</h2>
+            <h2 id="guideTitle" style="color:var(--accent); margin-bottom:15px;">دليل وقوانين لغة A137 code الشامل</h2>
             <div id="guideBody"></div>
         </div>
     </div>
@@ -128,12 +140,12 @@ https://checkout.pay#100.00#"SAR"
             ar: {
                 btnRun: "▶ معاينة النتيجة", btnDownload: "💾 تحميل ملف", btnDecompile: "🔓 تفكك الملف", btnGuide: "📖 دليل اللغة", btnLang: "🌐 English / عربي",
                 decompTitle: "تفكيك واستخراج كود HTML", decompDesc: "قم برفع أي ملف HTML لتفكيكه واستخراج كود الـ HTML الصافي منه لنسخه واستخدامه في مشاريعك:",
-                lblUpload: "📄 اضغط هنا لاختيار ملف HTML", btnCopyDecomp: "📋 نسخ كود الـ HTML", guideTitle: "دليل وقوانين لغة A137 code"
+                lblUpload: "📄 اضغط هنا لاختيار ملف HTML", btnCopyDecomp: "📋 نسخ كود الـ HTML", guideTitle: "دليل وقوانين لغة A137 code الشامل"
             },
             en: {
                 btnRun: "▶ Preview Result", btnDownload: "💾 Download File", btnDecompile: "🔓 Decompile File", btnGuide: "📖 Language Guide", btnLang: "🌐 عربي / English",
                 decompTitle: "Decompile & Extract HTML Code", decompDesc: "Upload any HTML file to extract pure HTML code for your projects:",
-                lblUpload: "📄 Click here to select HTML file", btnCopyDecomp: "📋 Copy HTML Code", guideTitle: "A137 Code Language Rules"
+                lblUpload: "📄 Click here to select HTML file", btnCopyDecomp: "📋 Copy HTML Code", guideTitle: "Complete A137 Code Language Guide"
             }
         };
 
@@ -151,19 +163,14 @@ https://checkout.pay#100.00#"SAR"
         function openDecompileModal() { document.getElementById('decompileModal').classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-        // تفكيك وقراءة ملف ה-HTML واستخراج الكود
         function handleFileUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
             const reader = new FileReader();
             reader.onload = function(e) {
-                const content = e.target.result;
-                const textArea = document.getElementById('decompiledCode');
-                const btnCopy = document.getElementById('btnCopyDecomp');
-                
-                textArea.style.display = 'block';
-                textArea.value = content; // استخراج كود الـ HTML بالكامل
-                btnCopy.style.display = 'block';
+                document.getElementById('decompiledCode').style.display = 'block';
+                document.getElementById('decompiledCode').value = e.target.result;
+                document.getElementById('btnCopyDecomp').style.display = 'block';
             };
             reader.readAsText(file);
         }
@@ -176,101 +183,108 @@ https://checkout.pay#100.00#"SAR"
         }
 
         function compileA137(sourceCode) {
-            if (!sourceCode.includes('!start-a137!') || !sourceCode.includes('!end!')) {
-                return `<h3 style="color:red; text-align:center;">Error: Missing !start-a137! or !end!</h3>`;
-            }
-
             let appName = "A137 App";
             const appMatch = sourceCode.match(/webapp!(.*?!)/);
             if (appMatch) appName = appMatch[1].replace('!', '');
 
             const lines = sourceCode.split('\n');
             let htmlBody = '';
-            let jsLogic = `let memory = {};\n`;
-
-            jsLogic += `function evalM(eq) {
-                try {
-                    return eval(eq.replace(/([a-zA-Z0-9_]+)/g, m => memory[m] !== undefined ? memory[m] : m).replace(/\\^/g, '**').replace(/÷/g, '/'));
-                } catch(e) { return 0; }
-            }\n`;
+            let mathRules = [];
+            let printVars = [];
+            let aiRules = [];
 
             let isNextHidden = false;
 
             for (let i = 0; i < lines.length; i++) {
                 let line = lines[i].trim();
-                if (!line || line.startsWith('!start') || line.startsWith('!end') || line.startsWith('webapp!')) continue;
-                if (line.startsWith('@')) continue;
+                if (!line || line.startsWith('webapp!') || line.startsWith('@')) continue;
 
                 let disp = isNextHidden ? 'display:none;' : 'display:block;';
                 if (isNextHidden) isNextHidden = false;
 
-                // 1. Ask Input
+                // 1. Images
+                let imgMatch = line.match(/^img(['"])(.*?)\1(?:#([\d.]+)\.([\d.]+))?/i);
+                if (imgMatch) {
+                    let [, , url, w, h] = imgMatch;
+                    let widthCss = w ? `width:${w * 25}px;` : 'width:60px;';
+                    let heightCss = h ? `height:${h * 25}px;` : 'height:auto;';
+                    htmlBody += `<img src="${url}" style="${widthCss} ${heightCss} object-fit:contain; border-radius:8px; margin:5px 0; ${disp}">\n`;
+                    continue;
+                }
+
+                // 2. Buttons
+                let btnMatch = line.match(/^c(b|p)(['"])(.*?)\2gt(?:(['"])(.*?)\4)?/i);
+                if (btnMatch) {
+                    let [, type, , txt, , url] = btnMatch;
+                    let isCb = (type.toLowerCase() === 'b');
+                    let clickAction = "";
+                    if (url) clickAction += `window.open('${url}', '_blank'); `;
+                    if (isCb) clickAction += "this.style.display='none'; ";
+                    clickAction += "if(this.nextElementSibling && !this.nextElementSibling.href) this.nextElementSibling.style.display='block';";
+
+                    htmlBody += `<button onclick="${clickAction}" style="padding:8px 16px; margin:8px 0; cursor:pointer; font-weight:bold; border-radius:6px; background:#5865F2; color:#fff; border:none; ${disp}">${txt}</button>\n`;
+                    if (!url) isNextHidden = true;
+                    continue;
+                }
+
+                // 3. Ask Input
                 let askMatch = line.match(/^(\w+)\s*=\s*ask(['"])(.*?)\2/);
                 if (askMatch) {
                     let [, vName, , promptTxt] = askMatch;
                     htmlBody += `<div style="margin:10px 0; ${disp}">
-                        <button onclick="let r=prompt('${promptTxt}'); if(r){ memory['${vName}']=r; document.getElementById('v_${vName}').innerText=r; }" style="padding:6px 12px; cursor:pointer;">${promptTxt}</button>
+                        <button onclick="promptInput('${vName}', '${promptTxt}')" style="padding:6px 12px; cursor:pointer;">${promptTxt}</button>
                         <span id="v_${vName}" style="margin:0 10px; font-weight:bold; color:#00ffcc;"></span>
                     </div>\n`;
                     continue;
                 }
 
-                // 2. Print
+                // 4. Print
                 let pMatch = line.match(/^p(['"])(.*?)\1(?:#([0-9a-fA-F]{3,6}))?/);
                 if (pMatch) {
                     let [, , txt, color] = pMatch;
-                    let c = color ? `color:#${color};` : 'color:#000;';
-                    htmlBody += `<div style="${c} font-size:1.1rem; margin:5px 0; ${disp}" id="p_${i}">${txt}</div>\n`;
-                    jsLogic += `if(memory['${txt}'] !== undefined) { document.getElementById('p_${i}').innerText = memory['${txt}']; }\n`;
+                    let c = color ? `color:#${color};` : 'color:#fff;';
+                    let elemId = `p_${i}`;
+                    htmlBody += `<div style="${c} font-size:1.1rem; margin:5px 0; ${disp}" id="${elemId}">${txt}</div>\n`;
+                    printVars.push({ id: elemId, target: txt });
                     continue;
                 }
 
-                // 3. Backgrounds (bj, bjo, bg, bgo) with Opacity %
+                // 5. Backgrounds
                 let shapeMatch = line.match(/^(?:#([0-9a-fA-F]{3,6})#(bg|bgo|bj|bjo)|(bg|bgo|bj|bjo)#([0-9a-fA-F]{3,6}))\(([\d.]+)\.([\d.]+)\)(?:%(\d+))?/i);
                 if (shapeMatch) {
                     let hex = shapeMatch[1] || shapeMatch[4];
                     let cmd = (shapeMatch[2] || shapeMatch[3]).toLowerCase();
                     let w = shapeMatch[5], h = shapeMatch[6];
                     let op = shapeMatch[7] ? (parseInt(shapeMatch[7])/100) : 1;
-                    let rad = (cmd === 'bgo' || cmd === 'bjo') ? '50%' : '4px';
+                    let rad = (cmd === 'bgo' || cmd === 'bjo') ? '50%' : '8px';
                     let pos = (cmd === 'bj' || cmd === 'bjo') ? 'position:absolute; z-index:-1;' : 'position:relative; margin:8px 0;';
                     
                     htmlBody += `<div style="background:#${hex}; width:${w * 25}px; height:${h * 25}px; border-radius:${rad}; opacity:${op}; ${pos} ${disp}"></div>\n`;
                     continue;
                 }
 
-                // 4. Buttons (cp, cb)
-                let btnMatch = line.match(/^c(b|p)(['"])(.*?)\2gt/i);
-                if (btnMatch) {
-                    let [, type, , txt] = btnMatch;
-                    let isCb = (type.toLowerCase() === 'b');
-                    htmlBody += `<button onclick="this.nextElementSibling.style.display='block'; ${isCb ? "this.style.display='none';" : ""}" style="padding:8px 16px; margin:8px 0; cursor:pointer; font-weight:bold;">${txt}</button>\n`;
-                    isNextHidden = true;
-                    continue;
-                }
-
-                // 5. Math
+                // 6. Math Engine
                 let mathMatch = line.match(/^Math\.\.\.(.+?)([\+\-\*\÷\^])(.+?)=(.+)/i);
                 if (mathMatch) {
-                    let [, l, op, r, resVar] = mathMatch;
-                    jsLogic += `memory['${resVar}'] = evalM('${l} ${op} ${r}');\n`;
+                    let [, left, op, right, resVar] = mathMatch;
+                    mathRules.push({ left: left.trim(), op: op.trim(), right: right.trim(), resVar: resVar.trim() });
                     continue;
                 }
 
-                // 6. AI Core (b/f)
+                // 7. AI Core
                 let aiMatch1 = line.match(/^in\.([a-zA-Z0-9_]+)\s*=\s*(['"])(.*?)\2/i);
                 if (aiMatch1 && i + 1 < lines.length) {
                     let aiMatch2 = lines[i+1].trim().match(/^b\s*(['"])(.*?)\1\s*f\s*(['"])(.*?)\3/i);
                     if (aiMatch2) {
                         let [, target, , trigger] = aiMatch1;
                         let [, , oldW, , newW] = aiMatch2;
-                        jsLogic += `if(memory['${target}'] && memory['${target}'].includes('${trigger}')) { memory['${target}'] = memory['${target}'].replace(new RegExp('${oldW}', 'g'), '${newW}'); }\n`;
+                        aiRules.push({ target: target.trim(), trigger: trigger.trigger || trigger, oldW: oldW.trim(), newW: newW.trim() });
                         i++;
                         continue;
                     }
                 }
 
-                // 7. Payments
+                // 8. Payments
                 let payR = line.match(/^(https?:\/\/[^\s]+)\.pay#([\d.]+)#(['"])([A-Za-z]+)\3/);
                 if (payR) {
                     htmlBody += `<button onclick="window.open('${payR[1]}', '_blank')" style="background:#007bff; color:#fff; border:none; padding:8px 14px; border-radius:4px; margin:5px 0; cursor:pointer; ${disp}">دفع حقيقي (${payR[2]} ${payR[4]}) ↗</button>\n`;
@@ -283,17 +297,65 @@ https://checkout.pay#100.00#"SAR"
                 }
             }
 
+            let scriptCode = `
+                let memory = {};
+                const mathRules = ${JSON.stringify(mathRules)};
+                const printVars = ${JSON.stringify(printVars)};
+                const aiRules = ${JSON.stringify(aiRules)};
+
+                function promptInput(vName, promptTxt) {
+                    let r = prompt(promptTxt);
+                    if(r !== null) {
+                        memory[vName] = isNaN(r) ? r : parseFloat(r);
+                        let span = document.getElementById('v_' + vName);
+                        if(span) span.innerText = r;
+                        updateEngine();
+                    }
+                }
+
+                function updateEngine() {
+                    mathRules.forEach(rule => {
+                        let valL = memory[rule.left] !== undefined ? memory[rule.left] : parseFloat(rule.left);
+                        let valR = memory[rule.right] !== undefined ? memory[rule.right] : parseFloat(rule.right);
+                        
+                        if(!isNaN(valL) && !isNaN(valR)) {
+                            let res = 0;
+                            if(rule.op === '+') res = valL + valR;
+                            else if(rule.op === '-') res = valL - valR;
+                            else if(rule.op === '*') res = valL * valR;
+                            else if(rule.op === '÷' || rule.op === '/') res = valL / valR;
+                            else if(rule.op === '^') res = Math.pow(valL, valR);
+                            memory[rule.resVar] = res;
+                        }
+                    });
+
+                    aiRules.forEach(rule => {
+                        let val = memory[rule.target];
+                        if(typeof val === 'string' && val.includes(rule.trigger)) {
+                            memory[rule.target] = val.replaceAll(rule.oldW, rule.newW);
+                        }
+                    });
+
+                    printVars.forEach(pv => {
+                        if(memory[pv.target] !== undefined) {
+                            let el = document.getElementById(pv.id);
+                            if(el) el.innerText = memory[pv.target];
+                        }
+                    });
+                }
+            `;
+
             return `<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${appName}</title>
-    <meta name="description" content="Generated by A137 code">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" type="image/png">
 </head>
-<body>
+<body style="background:#2f3136; color:#fff; padding:20px; font-family:sans-serif;">
     ${htmlBody}
-    <script>${jsLogic}<\/script>
+    <script>${scriptCode}<\/script>
 </body>
 </html>`;
         }
@@ -302,91 +364,17 @@ https://checkout.pay#100.00#"SAR"
             const guide = document.getElementById('guideBody');
             if (currentLang === 'ar') {
                 guide.innerHTML = `
-                    <h3>1. الهيكل الأساسي</h3>
-                    <p>• بداية التطبيق: <code>!start-a137!</code> وفي النهاية: <code>!end!</code></p>
-                    <p>• تسمية التطبيق: <code>webapp!اسم_التطبيق!</code></p>
-                    
-                    <h3>2. مرونة علامات التنصيص</h3>
-                    <p>• تقبل اللغة علامات التنصيص المفردة <code>' '</code> والمزدوجة <code>" "</code> تبادلياً في كافة الأوامر بلا استثناء.</p>
-                    
-                    <h3>3. الخلفيات الشفافة والمطلقة (bj / bg)</h3>
-                    <p>• <b>bg / bgo:</b> أشكال هندسية عادية (مربع / دائري).</p>
-                    <p>• <b>bj / bjo:</b> خلفيات مطلقة تقع خلف جميع العناصر ولا تغطي الأزرار والنصوص.</p>
-                    <p>• <b>دعم الشفافية (%):</b> كتابة نسبة الشفافية بالنهاية مثل <code>%50</code>.</p>
-                    <p>• <b>مرونة الترتيب:</b> تقبل طريقتين كتابة: <code>bj#HEX(1.1)%50</code> أو <code>#HEX#bj(1.1)%50</code>.</p>
-                    
-                    <h3>4. النظام الرياضي المتقدم</h3>
-                    <p>• تبدأ الأوامر الرياضية بـ: <code>Math...x+y=z</code></p>
-                    <p>• العمليات المدعومة: <code>+</code> (جمع)، <code>-</code> (طرح)، <code>*</code> (ضرب)، <code>÷</code> (قسمة)، <code>^</code> (أسس).</p>
-                    
-                    <h3>5. خوارزميات الذكاء الاصطناعي (AI)</h3>
-                    <p>• السطر الأول (النطاق والشرط): <code>in.v = "الكلمة"</code></p>
-                    <p>• السطر الثاني (الاستبدال الجذري): <code>b "القديمة" f "الجديدة"</code> (يشترط تنوع الأحرف الكبيرة والصغيرة في الكلمة الجديدة).</p>
-                    
-                    <h3>6. الأزرار والحفز Toggles</h3>
-                    <p>• <b>زر مستمر:</b> <code>cp"النص"gt</code> (ينفذ ما تحته ولا يختفي).</p>
-                    <p>• <b>زر مخفي:</b> <code>cb"النص"gt</code> (ينفذ ما تحته ويختفي فوراً).</p>
-                    
-                    <h3>7. بوابات الدفع</h3>
-                    <p>• <b>دفع تجريبي:</b> <code>Fpay#10.00#"USD"</code></p>
-                    <p>• <b>دفع حقيقي:</b> <code>https://checkout.pay#100.00#"SAR"</code> (يفتح برابط خارجي لحماية الأداء).</p>
-                `;
-            } else {
-                guide.innerHTML = `
-                    <h3>1. Basic Structure</h3>
-                    <p>• Start: <code>!start-a137!</code> | End: <code>!end!</code></p>
-                    <p>• WebApp Name: <code>webapp!AppName!</code></p>
-                    
-                    <h3>2. Quotation Flexibility</h3>
-                    <p>• Supports single <code>' '</code> and double <code>" "</code> quotes interchangeably in all commands.</p>
-                    
-                    <h3>3. Absolute & Transparent Backgrounds</h3>
-                    <p>• <b>bg / bgo:</b> Standard shapes (box / circle).</p>
-                    <p>• <b>bj / bjo:</b> Absolute background layer placed behind elements.</p>
-                    <p>• <b>Opacity Support (%):</b> Add opacity at the end e.g., <code>%50</code>.</p>
-                    <p>• <b>Flexible Ordering:</b> Accepts both <code>bj#HEX(1.1)%50</code> or <code>#HEX#bj(1.1)%50</code>.</p>
-                    
-                    <h3>4. Math System</h3>
-                    <p>• Math syntax starts with: <code>Math...x+y=z</code></p>
-                    <p>• Supported Operators: <code>+</code>, <code>-</code>, <code>*</code>, <code>÷</code>, and <code>^</code> (power).</p>
-                    
-                    <h3>5. AI Core Algorithm</h3>
-                    <p>• Line 1: <code>in.v = "word"</code></p>
-                    <p>• Line 2: <code>b "oldWord" f "newWord"</code> (destructive replacement with mixed-case requirement).</p>
-                    
-                    <h3>6. Interactive Buttons</h3>
-                    <p>• <b>Persistent Button:</b> <code>cp"Text"gt</code></p>
-                    <p>• <b>Auto-hiding Button:</b> <code>cb"Text"gt</code></p>
-                    
-                    <h3>7. Payment Integration</h3>
-                    <p>• <b>Sandbox:</b> <code>Fpay#10.00#"USD"</code></p>
-                    <p>• <b>Real Payment:</b> <code>URL.pay#100.00#"SAR"</code> (Opens in a new tab).</p>
-                `;
-            }
-        }
+                    <div class="guide-section">
+                        <h3>1. التسمية الهيكلية والتعليقات</h3>
+                        <ul>
+                            <li><b>اسم التطبيق:</b> <code>webapp!اسم_التطبيق!</code> (يكتب في بداية الملف، بدون وسوم إغلاق/فتح إضافية).</li>
+                            <li><b>التعليقات:</b> أي سطر يبدأ بـ <code>@</code> يُعتبر تعليقاً ولا يتم تنفيذه.</li>
+                        </ul>
+                    </div>
 
-        function runCompiler() {
-            const code = document.getElementById('codeEditor').value;
-            const compiled = compileA137(code);
-            const iframe = document.getElementById('previewFrame');
-            iframe.contentWindow.document.open();
-            iframe.contentWindow.document.write(compiled);
-            iframe.contentWindow.document.close();
-        }
-
-        function downloadHTML() {
-            const code = document.getElementById('codeEditor').value;
-            const compiled = compileA137(code);
-            const blob = new Blob([compiled], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'index.html';
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        window.onload = runCompiler;
-    </script>
-</body>
-    </html> 
+                    <div class="guide-section">
+                        <h3>2. الأزرار والتنقل وإخفاء العناصر</h3>
+                        <ul>
+                            <li><b>زر مستمر:</b> <code>cp"نص الزر"gt</code> - عند الضغط عليه يُظهر العنصر الذي يليه مباشرة.</li>
+                            <li><b>زر مستمر بـ رابط:</b> <code>cp"نص الزر"gt"https://..."</code> - ينقل للموقع في تبويب جديد بدون إخفاء.</li>
+                            <li><b>زر مخفي (يختفي بعد الضغط):</b> <code>cb"نص الزر"gt</code> - يُظهر العنصر التالي ثم يختفي تلقائياً.</li>
