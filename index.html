@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A137code</title>
     
-    <!-- صورة وأيقونة الموقع في التبويب (Favicon) -->
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" type="image/png">
     
     <style>
@@ -31,8 +30,8 @@
         [dir="ltr"] .panel.left { border-left: none; border-right: 2px solid var(--border); }
         
         textarea.editor { flex: 1; background: #050505; color: #00ffcc; border: 1px solid var(--border); border-radius: 6px; padding: 15px; font-family: monospace; font-size: 1rem; line-height: 1.5; resize: none; outline: none; }
-        .preview-wrapper { flex: 1; background: #fff; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); }
-        iframe { width: 100%; height: 100%; border: none; }
+        .preview-wrapper { flex: 1; background: #2f3136; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); }
+        iframe { width: 100%; height: 100%; border: none; background: #2f3136; }
         
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(6px); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.3s; z-index: 1000; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
@@ -220,7 +219,7 @@ https://checkout.pay#100.00#"SAR"</textarea>
                     let clickAction = "";
                     if (url) clickAction += `window.open('${url}', '_blank'); `;
                     if (isCb) clickAction += "this.style.display='none'; ";
-                    clickAction += "if(this.nextElementSibling && !this.nextElementSibling.href) this.nextElementSibling.style.display='block';";
+                    clickAction += "let n = this.nextElementSibling; if(n && !n.href) n.style.display='block';";
 
                     htmlBody += `<button onclick="${clickAction}" style="padding:8px 16px; margin:8px 0; cursor:pointer; font-weight:bold; border-radius:6px; background:#5865F2; color:#fff; border:none; ${disp}">${txt}</button>\n`;
                     if (!url) isNextHidden = true;
@@ -232,7 +231,7 @@ https://checkout.pay#100.00#"SAR"</textarea>
                 if (askMatch) {
                     let [, vName, , promptTxt] = askMatch;
                     htmlBody += `<div style="margin:10px 0; ${disp}">
-                        <button onclick="promptInput('${vName}', '${promptTxt}')" style="padding:6px 12px; cursor:pointer;">${promptTxt}</button>
+                        <button onclick="promptInput('${vName}', '${promptTxt}')" style="padding:6px 12px; cursor:pointer; background:#1f2833; color:#66fcf1; border:1px solid #45a29e; border-radius:4px;">${promptTxt}</button>
                         <span id="v_${vName}" style="margin:0 10px; font-weight:bold; color:#00ffcc;"></span>
                     </div>\n`;
                     continue;
@@ -278,7 +277,7 @@ https://checkout.pay#100.00#"SAR"</textarea>
                     if (aiMatch2) {
                         let [, target, , trigger] = aiMatch1;
                         let [, , oldW, , newW] = aiMatch2;
-                        aiRules.push({ target: target.trim(), trigger: trigger.trigger || trigger, oldW: oldW.trim(), newW: newW.trim() });
+                        aiRules.push({ target: target.trim(), trigger: trigger.trim(), oldW: oldW.trim(), newW: newW.trim() });
                         i++;
                         continue;
                     }
@@ -332,7 +331,7 @@ https://checkout.pay#100.00#"SAR"</textarea>
                     aiRules.forEach(rule => {
                         let val = memory[rule.target];
                         if(typeof val === 'string' && val.includes(rule.trigger)) {
-                            memory[rule.target] = val.replaceAll(rule.oldW, rule.newW);
+                            memory[rule.target] = val.split(rule.oldW).join(rule.newW);
                         }
                     });
 
@@ -367,7 +366,7 @@ https://checkout.pay#100.00#"SAR"</textarea>
                     <div class="guide-section">
                         <h3>1. التسمية الهيكلية والتعليقات</h3>
                         <ul>
-                            <li><b>اسم التطبيق:</b> <code>webapp!اسم_التطبيق!</code> (يكتب في بداية الملف، بدون وسوم إغلاق/فتح إضافية).</li>
+                            <li><b>اسم التطبيق:</b> <code>webapp!اسم_التطبيق!</code></li>
                             <li><b>التعليقات:</b> أي سطر يبدأ بـ <code>@</code> يُعتبر تعليقاً ولا يتم تنفيذه.</li>
                         </ul>
                     </div>
@@ -375,6 +374,11 @@ https://checkout.pay#100.00#"SAR"</textarea>
                     <div class="guide-section">
                         <h3>2. الأزرار والتنقل وإخفاء العناصر</h3>
                         <ul>
-                            <li><b>زر مستمر:</b> <code>cp"نص الزر"gt</code> - عند الضغط عليه يُظهر العنصر الذي يليه مباشرة.</li>
-                            <li><b>زر مستمر بـ رابط:</b> <code>cp"نص الزر"gt"https://..."</code> - ينقل للموقع في تبويب جديد بدون إخفاء.</li>
-                            <li><b>زر مخفي (يختفي بعد الضغط):</b> <code>cb"نص الزر"gt</code> - يُظهر العنصر التالي ثم يختفي تلقائياً.</li>
+                            <li><b>زر مستمر:</b> <code>cp"نص الزر"gt</code></li>
+                            <li><b>زر مستمر بـ رابط:</b> <code>cp"نص الزر"gt"https://..."</code></li>
+                            <li><b>زر مخفي:</b> <code>cb"نص الزر"gt</code></li>
+                            <li><b>زر مخفي بـ رابط:</b> <code>cb"نص الزر"gt"https://..."</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="g
