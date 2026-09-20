@@ -3,102 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A137code</title>
+    <title>A137 Code IDE - المترجم الشامل</title>
     
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" type="image/png">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230b0c10'/><path d='M20 75 L50 25 L80 75 M32 58 L68 58' stroke='%2366fcf1' stroke-width='9' fill='none' stroke-linecap='round' stroke-linejoin='round'/><circle cx='50' cy='38' r='5' fill='%2366fcf1'/></svg>">
+    
+    <meta name="description" content="بيئة تطوير متكاملة ومترجم شامل للغة البرمجة A137">
+    <meta name="keywords" content="A137, IDE, Compiler, Programming Language, Web Application">
+    <meta name="author" content="A137 Team">
+    <meta name="theme-color" content="#0b0c10">
     
     <style>
         :root {
-            --bg-main: #0b0c10; --bg-panel: #1f2833;
-            --accent: #66fcf1; --text-main: #c5c6c7;
-            --border: #45a29e; --danger: #ff4c4c;
+            --bg-main: #0b0c10;
+            --bg-panel: #1f2833;
+            --accent: #66fcf1;
+            --text-main: #c5c6c7;
+            --border: #45a29e;
+            --danger: #ff4c4c;
+            --btn-hover: #45a29e;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
         body { background: var(--bg-main); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        header { background: var(--bg-panel); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); }
-        .logo { font-size: 1.4rem; font-weight: bold; color: var(--accent); display: flex; align-items: center; gap: 10px; }
-        .logo img { width: 28px; height: 28px; }
-        .toolbar { display: flex; gap: 8px; flex-wrap: wrap; }
+        header { background: var(--bg-panel); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); }
         
-        button { background: var(--bg-main); color: var(--accent); border: 1px solid var(--accent); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-        button:hover { background: var(--accent); color: var(--bg-main); }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand-logo { width: 38px; height: 38px; background: var(--bg-main); border: 2px solid var(--accent); border-radius: 8px; padding: 4px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(102, 252, 241, 0.3); }
+        .brand-logo svg { width: 100%; height: 100%; }
+        .logo-text { font-size: 1.3rem; font-weight: bold; color: var(--accent); letter-spacing: 1px; }
+        
+        .toolbar { display: flex; gap: 10px; flex-wrap: wrap; }
+        
+        button { background: var(--bg-main); color: var(--accent); border: 1px solid var(--accent); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: all 0.2s ease; }
+        button:hover { background: var(--accent); color: var(--bg-main); box-shadow: 0 0 10px rgba(102, 252, 241, 0.4); }
         
         .workspace { display: flex; flex: 1; height: calc(100vh - 60px); }
-        .panel { flex: 1; display: flex; flex-direction: column; padding: 12px; }
+        .panel { flex: 1; display: flex; flex-direction: column; padding: 12px; gap: 10px; }
         .panel.left { border-left: 2px solid var(--border); }
         [dir="ltr"] .panel.left { border-left: none; border-right: 2px solid var(--border); }
         
-        textarea.editor { flex: 1; background: #050505; color: #00ffcc; border: 1px solid var(--border); border-radius: 6px; padding: 15px; font-family: monospace; font-size: 1rem; line-height: 1.5; resize: none; outline: none; }
-        .preview-wrapper { flex: 1; background: #2f3136; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); }
-        iframe { width: 100%; height: 100%; border: none; background: #2f3136; }
+        textarea.editor { flex: 1; background: #050505; color: #00ffcc; border: 1px solid var(--border); border-radius: 6px; padding: 15px; font-family: 'Courier New', monospace; font-size: 1rem; line-height: 1.6; resize: none; outline: none; box-shadow: inset 0 0 10px rgba(0,0,0,0.8); }
+        .preview-wrapper { flex: 1; background: #1a1a2e; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); position: relative; }
+        iframe { width: 100%; height: 100%; border: none; background: #1a1a2e; }
         
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(6px); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.3s; z-index: 1000; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 1000; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: var(--bg-panel); border: 2px solid var(--border); border-radius: 10px; width: 90%; max-width: 800px; max-height: 85vh; padding: 20px; overflow-y: auto; position: relative; }
+        .modal-content { background: var(--bg-panel); border: 2px solid var(--border); border-radius: 10px; width: 90%; max-width: 800px; max-height: 85vh; padding: 25px; overflow-y: auto; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
         
-        .close-btn { position: absolute; top: 12px; left: 12px; background: var(--danger); color: #fff; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; }
+        .close-btn { position: absolute; top: 12px; left: 12px; background: var(--danger); color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         [dir="ltr"] .close-btn { left: auto; right: 12px; }
         
-        .file-box { border: 2px dashed var(--accent); padding: 20px; text-align: center; border-radius: 6px; cursor: pointer; margin: 15px 0; }
-        #decompiledCode { width: 100%; height: 250px; background: #000; color: #00ffcc; margin-top: 10px; padding: 10px; border-radius: 6px; font-family: monospace; display: none; resize: none; }
+        .file-box { border: 2px dashed var(--accent); padding: 25px; text-align: center; border-radius: 6px; cursor: pointer; margin: 15px 0; background: rgba(0,0,0,0.2); }
+        #decompiledCode { width: 100%; height: 220px; background: #000; color: #00ffcc; margin-top: 10px; padding: 10px; border-radius: 6px; font-family: monospace; display: none; resize: none; border: 1px solid var(--border); }
         
         .guide-section { margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 12px; }
         .guide-section h3 { color: var(--accent); margin-bottom: 8px; font-size: 1.1rem; }
-        .guide-section ul { list-style-type: disc; padding-right: 20px; }
+        .guide-section ul { list-style-type: square; padding-right: 20px; }
         [dir="ltr"] .guide-section ul { padding-right: 0; padding-left: 20px; }
-        .guide-section li { margin-bottom: 6px; line-height: 1.5; }
-        code { background: #000; color: #00ffcc; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.95rem; }
+        .guide-section li { margin-bottom: 8px; line-height: 1.5; color: var(--text-main); }
+        code { background: #000; color: #00ffcc; padding: 2px 6px; border-radius: 4px; font-family: monospace; border: 1px solid #222; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">
-            <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="Logo">
-            A137 code IDE
+        <div class="brand">
+            <div class="brand-logo">
+                <svg viewBox="0 0 100 100">
+                    <path d="M20 75 L50 25 L80 75 M32 58 L68 58" stroke="#66fcf1" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="50" cy="38" r="5" fill="#66fcf1"/>
+                </svg>
+            </div>
+            <div class="logo-text">A137 Code IDE</div>
         </div>
         <div class="toolbar">
-            <button id="btnRun" onclick="runCompiler()">▶ معاينة النتيجة</button>
-            <button id="btnDownload" onclick="downloadHTML()">💾 تحميل ملف</button>
-            <button id="btnDecompile" onclick="openDecompileModal()">🔓 تفكك الملف</button>
-            <button id="btnGuide" onclick="openGuide()">📖 دليل اللغة</button>
-            <button id="btnLang" onclick="toggleLanguage()">🌐 English / عربي</button>
+            <button id="btnRun">▶ تشغيل المعاينة</button>
+            <button id="btnDownload">💾 تحميل الملف (.html)</button>
+            <button id="btnDecompile">🔓 تفكيك ملف</button>
+            <button id="btnGuide">📖 دليل اللغة الكامل</button>
+            <button id="btnLang">🌐 English / عربي</button>
         </div>
     </header>
 
     <div class="workspace">
         <div class="panel left">
-            <textarea id="codeEditor" class="editor" spellcheck="false">webapp!My Direct App!
+            <textarea id="codeEditor" class="editor" spellcheck="false">webapp!تطبيق A137 المتطور!
+icon!"https://cdn-icons-png.flaticon.com/512/1006/1006771.png"
 
-@ === 1. صور وأيقونات ===
-p"تطبيق A137 الشامل"#5865F2
-img"https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png"#2.2
+@ === 1. تعريف المتغيرات بنصوص نظيفة للجافاسكريبت ===
+confirm = "نعم" | "أجل" | "موافق" | "yes"
 
-@ === 2. الأزرار الموجهة للروابط ===
-cp"زر مستمر يفتح ديسكورد"gt"https://discord.com"
-cb"زر مخفي يفتح يوتيوب ويختفي"gt"https://youtube.com"
+@ === 2. الطباعة والعناوين ===
+p"مرحباً بك في A137 المتطور مع معالجة الجافاسكريبت النظيفة"#66fcf1
 
-@ === 3. خلفيات مطلقة ===
-bj#1a1a2e(12.12)%100
+@ === 3. المدخلات وقراءة القيم بدون علامات تنصيص ===
+userAns = ask"أدخل خيارك (نعم / أجل / موافق / yes):"
+p"الإجابة المحددة هي:"#00ff00
+p"userAns"
 
-@ === 4. المدخلات والحسابات ===
-u1 = ask"أدخل الرقم الأول:"
-u2 = ask"أدخل الرقم الثاني:"
-Math...u1+u2=total
-p"الناتج النهائي:"#00ff00
-p"total"
+@ === 4. العمليات الحسابية ===
+num = 5
+Math...num^2=res
+p"مربع الرقم 5 هو:"#ffff00
+p"res"
 
-@ === 5. خوارزمية الذكاء الاصطناعي ===
-u3 = ask"اكتب كلمة بها proo:"
-in.u3 = "proo"
-b "proo" f "AiEngine"
-p"نتيجة المعالجة:"#ff00ff
-p"u3"
+@ === 5. الأزرار والحفظ ===
+cp"اضغط للمتابعة"gt
+p"تم ضغط الزر بنجاح!"#ff00ff
 
-@ === 6. بوابات الدفع ===
-Fpay#25.00#"USD"
-https://checkout.pay#100.00#"SAR"</textarea>
+SQL...SAVE confirm = userAns</textarea>
         </div>
         <div class="panel right">
             <div class="preview-wrapper">
@@ -107,46 +120,61 @@ https://checkout.pay#100.00#"SAR"</textarea>
         </div>
     </div>
 
-    <!-- نافذة تفكيك الملف -->
+    <!-- Modal: Decompile -->
     <div class="modal-overlay" id="decompileModal">
         <div class="modal-content">
-            <button class="close-btn" onclick="closeModal('decompileModal')">✕</button>
-            <h2 id="decompTitle" style="color:var(--accent);">تفكيك واستخراج كود HTML</h2>
-            <p id="decompDesc">قم برفع أي ملف HTML لتفكيكه واستخراج كود الـ HTML الصافي منه لنسخه واستخدامه في مشاريعك:</p>
+            <button class="close-btn" id="btnCloseDecompile">✕</button>
+            <h2 id="decompTitle" style="color:var(--accent); margin-bottom:10px;">تفكيك واستخراج الكود</h2>
+            <p id="decompDesc">اختر ملف HTML لتفكيكه وقراءة النص المصدري المولد منه:</p>
             
-            <div class="file-box" onclick="document.getElementById('fileUpload').click()">
-                <span id="lblUpload">📄 اضغط هنا لاختيار ملف HTML</span>
-                <input type="file" id="fileUpload" accept=".html" style="display:none;" onchange="handleFileUpload(event)">
+            <div class="file-box" id="fileBox">
+                <span id="lblUpload">📄 اضغط هنا لرفع ملف HTML</span>
+                <input type="file" id="fileUpload" accept=".html" style="display:none;">
             </div>
             
             <textarea id="decompiledCode" readonly></textarea>
-            <button id="btnCopyDecomp" style="display:none; margin-top:10px; width:100%;" onclick="copyDecompiled()">📋 نسخ كود الـ HTML</button>
+            <button id="btnCopyDecomp" style="display:none; margin-top:10px; width:100%;">📋 نسخ الكود المستخرج</button>
         </div>
     </div>
 
-    <!-- نافذة دليل اللغة -->
+    <!-- Modal: Guide -->
     <div class="modal-overlay" id="guideModal">
         <div class="modal-content">
-            <button class="close-btn" onclick="closeModal('guideModal')">✕</button>
-            <h2 id="guideTitle" style="color:var(--accent); margin-bottom:15px;">دليل وقوانين لغة A137 code الشامل</h2>
+            <button class="close-btn" id="btnCloseGuide">✕</button>
+            <h2 id="guideTitle" style="color:var(--accent); margin-bottom:15px;">دليل وقواعد لغة A137 code</h2>
             <div id="guideBody"></div>
         </div>
     </div>
 
     <script>
         let currentLang = 'ar';
+        let currentBlobUrl = null;
+
         const dict = {
             ar: {
-                btnRun: "▶ معاينة النتيجة", btnDownload: "💾 تحميل ملف", btnDecompile: "🔓 تفكك الملف", btnGuide: "📖 دليل اللغة", btnLang: "🌐 English / عربي",
-                decompTitle: "تفكيك واستخراج كود HTML", decompDesc: "قم برفع أي ملف HTML لتفكيكه واستخراج كود الـ HTML الصافي منه لنسخه واستخدامه في مشاريعك:",
-                lblUpload: "📄 اضغط هنا لاختيار ملف HTML", btnCopyDecomp: "📋 نسخ كود الـ HTML", guideTitle: "دليل وقوانين لغة A137 code الشامل"
+                btnRun: "▶ تشغيل المعاينة", btnDownload: "💾 تحميل الملف (.html)", btnDecompile: "🔓 تفكيك ملف", btnGuide: "📖 دليل اللغة الكامل", btnLang: "🌐 English / عربي",
+                decompTitle: "تفكيك واستخراج الكود", decompDesc: "اختر ملف HTML لتفكيكه وقراءة النص المصدري المولد منه:",
+                lblUpload: "📄 اضغط هنا لرفع ملف HTML", btnCopyDecomp: "📋 نسخ الكود المستخرج", guideTitle: "دليل وقواعد لغة A137 code"
             },
             en: {
-                btnRun: "▶ Preview Result", btnDownload: "💾 Download File", btnDecompile: "🔓 Decompile File", btnGuide: "📖 Language Guide", btnLang: "🌐 عربي / English",
-                decompTitle: "Decompile & Extract HTML Code", decompDesc: "Upload any HTML file to extract pure HTML code for your projects:",
-                lblUpload: "📄 Click here to select HTML file", btnCopyDecomp: "📋 Copy HTML Code", guideTitle: "Complete A137 Code Language Guide"
+                btnRun: "▶ Preview Result", btnDownload: "💾 Download File (.html)", btnDecompile: "🔓 Decompile File", btnGuide: "📖 Language Rules", btnLang: "🌐 عربي / English",
+                decompTitle: "Decompile HTML File", decompDesc: "Upload an HTML file to extract source code:",
+                lblUpload: "📄 Click here to upload HTML file", btnCopyDecomp: "📋 Copy Extracted Code", guideTitle: "Complete A137 Code Language Guide"
             }
         };
+
+        document.getElementById('btnRun').addEventListener('click', runCompiler);
+        document.getElementById('btnDownload').addEventListener('click', downloadHTML);
+        document.getElementById('btnDecompile').addEventListener('click', () => openModal('decompileModal'));
+        document.getElementById('btnGuide').addEventListener('click', openGuide);
+        document.getElementById('btnLang').addEventListener('click', toggleLanguage);
+
+        document.getElementById('btnCloseDecompile').addEventListener('click', () => closeModal('decompileModal'));
+        document.getElementById('btnCloseGuide').addEventListener('click', () => closeModal('guideModal'));
+
+        document.getElementById('fileBox').addEventListener('click', () => document.getElementById('fileUpload').click());
+        document.getElementById('fileUpload').addEventListener('change', handleFileUpload);
+        document.getElementById('btnCopyDecomp').addEventListener('click', copyDecompiled);
 
         function toggleLanguage() {
             currentLang = currentLang === 'ar' ? 'en' : 'ar';
@@ -158,8 +186,8 @@ https://checkout.pay#100.00#"SAR"</textarea>
             renderGuide();
         }
 
-        function openGuide() { renderGuide(); document.getElementById('guideModal').classList.add('active'); }
-        function openDecompileModal() { document.getElementById('decompileModal').classList.add('active'); }
+        function openGuide() { renderGuide(); openModal('guideModal'); }
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
         function handleFileUpload(event) {
@@ -178,170 +206,272 @@ https://checkout.pay#100.00#"SAR"</textarea>
             const txt = document.getElementById('decompiledCode');
             txt.select();
             document.execCommand('copy');
-            alert(currentLang === 'ar' ? "تم نسخ كود الـ HTML بنجاح!" : "HTML code copied successfully!");
+            alert(currentLang === 'ar' ? "تم النسخ!" : "Copied!");
         }
 
-        function compileA137(sourceCode) {
-            let appName = "A137 App";
+        function cleanQuotes(str) {
+            if (typeof str !== 'string') return str;
+            return str.trim().replace(/^["']|["']$/g, '').trim();
+        }
+
+        function getNextExecutableLine(lines, startIndex) {
+            for (let j = startIndex + 1; j < lines.length; j++) {
+                let trimmed = lines[j].trim();
+                if (trimmed && !trimmed.startsWith('@') && !trimmed.startsWith('webapp!') && !trimmed.startsWith('icon!')) {
+                    return trimmed;
+                }
+            }
+            return null;
+        }
+
+        function parseA137(sourceCode) {
+            let appName = "A137 Application";
+            let appIcon = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%2366fcf1'/></svg>";
+
             const appMatch = sourceCode.match(/webapp!(.*?!)/);
-            if (appMatch) appName = appMatch[1].replace('!', '');
+            if (appMatch) appName = cleanQuotes(appMatch[1].replace('!', ''));
+
+            const iconMatch = sourceCode.match(/icon!(["'])(.*?)\1/i);
+            if (iconMatch) appIcon = cleanQuotes(iconMatch[2]);
 
             const lines = sourceCode.split('\n');
-            let htmlBody = '';
+            let bodyHTML = [];
+            let runtimeActions = {};
+            let initialVars = {};
             let mathRules = [];
-            let printVars = [];
-            let aiRules = [];
-
-            let isNextHidden = false;
+            let sqlRules = [];
+            let actionCounter = 0;
 
             for (let i = 0; i < lines.length; i++) {
                 let line = lines[i].trim();
-                if (!line || line.startsWith('webapp!') || line.startsWith('@')) continue;
+                if (!line || line.startsWith('webapp!') || line.startsWith('icon!') || line.startsWith('@')) continue;
 
-                let disp = isNextHidden ? 'display:none;' : 'display:block;';
-                if (isNextHidden) isNextHidden = false;
-
-                // 1. Images
-                let imgMatch = line.match(/^img(['"])(.*?)\1(?:#([\d.]+)\.([\d.]+))?/i);
-                if (imgMatch) {
-                    let [, , url, w, h] = imgMatch;
-                    let widthCss = w ? `width:${w * 25}px;` : 'width:60px;';
-                    let heightCss = h ? `height:${h * 25}px;` : 'height:auto;';
-                    htmlBody += `<img src="${url}" style="${widthCss} ${heightCss} object-fit:contain; border-radius:8px; margin:5px 0; ${disp}">\n`;
+                // 1. المتغيرات المباشرة مع معالجة جافاسكريبت للنصوص والمصفوفات
+                let multiVarMatch = line.match(/^(\w+)\s*=\s*(.+)$/i);
+                if (multiVarMatch && !line.startsWith('p"') && !line.startsWith('ask') && !line.startsWith('Math') && !line.startsWith('SQL') && !line.startsWith('Pay') && !line.startsWith('c')) {
+                    let varName = multiVarMatch[1].trim();
+                    let rawValues = multiVarMatch[2].trim();
+                    
+                    if (rawValues.includes('|')) {
+                        let parts = rawValues.split('|').map(v => cleanQuotes(v));
+                        initialVars[varName] = parts;
+                    } else {
+                        let cleaned = cleanQuotes(rawValues);
+                        initialVars[varName] = isNaN(cleaned) || cleaned === '' ? cleaned : parseFloat(cleaned);
+                    }
                     continue;
                 }
 
-                // 2. Buttons
-                let btnMatch = line.match(/^c(b|p)(['"])(.*?)\2gt(?:(['"])(.*?)\4)?/i);
-                if (btnMatch) {
-                    let [, type, , txt, , url] = btnMatch;
-                    let isCb = (type.toLowerCase() === 'b');
-                    let clickAction = "";
-                    if (url) clickAction += `window.open('${url}', '_blank'); `;
-                    if (isCb) clickAction += "this.style.display='none'; ";
-                    clickAction += "let n = this.nextElementSibling; if(n && !n.href) n.style.display='block';";
-
-                    htmlBody += `<button onclick="${clickAction}" style="padding:8px 16px; margin:8px 0; cursor:pointer; font-weight:bold; border-radius:6px; background:#5865F2; color:#fff; border:none; ${disp}">${txt}</button>\n`;
-                    if (!url) isNextHidden = true;
-                    continue;
-                }
-
-                // 3. Ask Input
-                let askMatch = line.match(/^(\w+)\s*=\s*ask(['"])(.*?)\2/);
-                if (askMatch) {
-                    let [, vName, , promptTxt] = askMatch;
-                    htmlBody += `<div style="margin:10px 0; ${disp}">
-                        <button onclick="promptInput('${vName}', '${promptTxt}')" style="padding:6px 12px; cursor:pointer; background:#1f2833; color:#66fcf1; border:1px solid #45a29e; border-radius:4px;">${promptTxt}</button>
-                        <span id="v_${vName}" style="margin:0 10px; font-weight:bold; color:#00ffcc;"></span>
-                    </div>\n`;
-                    continue;
-                }
-
-                // 4. Print
-                let pMatch = line.match(/^p(['"])(.*?)\1(?:#([0-9a-fA-F]{3,6}))?/);
+                // 2. الطباعة الشاملة (p)
+                let pMatch = line.match(/^p(["'])(.*?)\1(?:#([0-9a-fA-F]{3,6}))?/i);
                 if (pMatch) {
                     let [, , txt, color] = pMatch;
-                    let c = color ? `color:#${color};` : 'color:#fff;';
-                    let elemId = `p_${i}`;
-                    htmlBody += `<div style="${c} font-size:1.1rem; margin:5px 0; ${disp}" id="${elemId}">${txt}</div>\n`;
-                    printVars.push({ id: elemId, target: txt });
+                    let cleanTxt = cleanQuotes(txt);
+                    let style = color ? `color:#${color};` : 'color:#ffffff;';
+                    let elemId = `elem_${i}`;
+                    bodyHTML.push(`<div id="${elemId}" class="a137-print" data-target="${cleanTxt}" style="${style} margin:8px 0; font-size:1.1rem; font-weight:bold;">${cleanTxt}</div>`);
                     continue;
                 }
 
-                // 5. Backgrounds
-                let shapeMatch = line.match(/^(?:#([0-9a-fA-F]{3,6})#(bg|bgo|bj|bjo)|(bg|bgo|bj|bjo)#([0-9a-fA-F]{3,6}))\(([\d.]+)\.([\d.]+)\)(?:%(\d+))?/i);
-                if (shapeMatch) {
-                    let hex = shapeMatch[1] || shapeMatch[4];
-                    let cmd = (shapeMatch[2] || shapeMatch[3]).toLowerCase();
-                    let w = shapeMatch[5], h = shapeMatch[6];
-                    let op = shapeMatch[7] ? (parseInt(shapeMatch[7])/100) : 1;
-                    let rad = (cmd === 'bgo' || cmd === 'bjo') ? '50%' : '8px';
-                    let pos = (cmd === 'bj' || cmd === 'bjo') ? 'position:absolute; z-index:-1;' : 'position:relative; margin:8px 0;';
-                    
-                    htmlBody += `<div style="background:#${hex}; width:${w * 25}px; height:${h * 25}px; border-radius:${rad}; opacity:${op}; ${pos} ${disp}"></div>\n`;
+                // 3. المدخلات (ask)
+                let askVarMatch = line.match(/^(\w+)\s*=\s*ask(["'])(.*?)\2/i);
+                if (askVarMatch) {
+                    let [, varName, , promptTxt] = askVarMatch;
+                    let cleanPrompt = cleanQuotes(promptTxt);
+                    bodyHTML.push(`
+                        <div style="margin:10px 0;">
+                            <button onclick="handleAsk('${varName}', '${cleanPrompt}')" style="padding:8px 14px; background:#1f2833; color:#66fcf1; border:1px solid #45a29e; border-radius:5px; cursor:pointer;">${cleanPrompt}</button>
+                            <span id="v_${varName}" style="margin:0 10px; color:#00ffcc; font-weight:bold;"></span>
+                        </div>
+                    `);
                     continue;
                 }
 
-                // 6. Math Engine
-                let mathMatch = line.match(/^Math\.\.\.(.+?)([\+\-\*\÷\^])(.+?)=(.+)/i);
+                let askStandaloneMatch = line.match(/^ask(["'])(.*?)\1/i);
+                if (askStandaloneMatch) {
+                    let [, , promptTxt] = askStandaloneMatch;
+                    let cleanPrompt = cleanQuotes(promptTxt);
+                    bodyHTML.push(`
+                        <div style="margin:10px 0;">
+                            <button onclick="prompt('${cleanPrompt}')" style="padding:8px 14px; background:#1f2833; color:#c5c6c7; border:1px solid #45a29e; border-radius:5px; cursor:pointer;">${cleanPrompt}</button>
+                        </div>
+                    `);
+                    continue;
+                }
+
+                // 4. الأزرار (cp / cb)
+                let btnMatch = line.match(/^c(b|p)(["'])(.*?)\2gt(?:(["'])(.*?)\4)?/i);
+                if (btnMatch) {
+                    let [, type, , btnTxt, , url] = btnMatch;
+                    let cleanBtnTxt = cleanQuotes(btnTxt);
+                    let cleanUrl = url ? cleanQuotes(url) : null;
+                    let nextLine = getNextExecutableLine(lines, i);
+                    let actionKey = `action_${actionCounter++}`;
+
+                    runtimeActions[actionKey] = {
+                        url: cleanUrl,
+                        type: type.toLowerCase(),
+                        nextLine: nextLine
+                    };
+
+                    let btnStyle = "padding:10px 18px; margin:8px 4px; cursor:pointer; font-weight:bold; border-radius:6px; background:#5865F2; color:#fff; border:none; transition:0.2s;";
+                    bodyHTML.push(`<button id="btn_${actionKey}" onclick="triggerButton('${actionKey}')" style="${btnStyle}">${cleanBtnTxt}</button>`);
+                    continue;
+                }
+
+                // 5. المدفوعات (Pay)
+                let payMatch = line.match(/^Pay#([\d\.]+)#(.*)$/i);
+                if (payMatch) {
+                    let [, amount, rest] = payMatch;
+                    let isTest = rest.endsWith('F');
+                    let targetUrl = cleanQuotes(isTest ? rest.slice(0, -1) : rest);
+
+                    let clickCode = "";
+                    if (isTest) {
+                        clickCode = `alert('[اختبار دفع تجريبي - تم تخطي العملية بنجاح!]: المبلغ ${amount} SAR');`;
+                        if (targetUrl) clickCode += ` window.open('${targetUrl}', '_blank');`;
+                    } else {
+                        if (targetUrl) {
+                            clickCode = `window.open('${targetUrl}', '_blank');`;
+                        } else {
+                            clickCode = `alert('[دفع حقيقي]: تم إطلاق بطاقة الجهاز لخصم ${amount} SAR');`;
+                        }
+                    }
+
+                    let btnColor = isTest ? '#e67e22' : '#2ecc71';
+                    let label = isTest ? `دفع تجريبي - ${amount} SAR` : `دفع حقيقي - ${amount} SAR`;
+                    bodyHTML.push(`<button onclick="${clickCode}" style="padding:10px 18px; margin:8px 0; cursor:pointer; font-weight:bold; border-radius:6px; background:${btnColor}; color:#fff; border:none;">💳 ${label}</button>`);
+                    continue;
+                }
+
+                // 6. العمليات الحسابية (Math)
+                let mathMatch = line.match(/^Math\.\.\.(.+?)([\+\-\*\÷\^])(.+?)=((?:[a-zA-Z0-9_]+))/i);
                 if (mathMatch) {
                     let [, left, op, right, resVar] = mathMatch;
-                    mathRules.push({ left: left.trim(), op: op.trim(), right: right.trim(), resVar: resVar.trim() });
+                    mathRules.push({ left: cleanQuotes(left), op: op.trim(), right: cleanQuotes(right), resVar: cleanQuotes(resVar) });
                     continue;
                 }
 
-                // 7. AI Core
-                let aiMatch1 = line.match(/^in\.([a-zA-Z0-9_]+)\s*=\s*(['"])(.*?)\2/i);
-                if (aiMatch1 && i + 1 < lines.length) {
-                    let aiMatch2 = lines[i+1].trim().match(/^b\s*(['"])(.*?)\1\s*f\s*(['"])(.*?)\3/i);
-                    if (aiMatch2) {
-                        let [, target, , trigger] = aiMatch1;
-                        let [, , oldW, , newW] = aiMatch2;
-                        aiRules.push({ target: target.trim(), trigger: trigger.trim(), oldW: oldW.trim(), newW: newW.trim() });
-                        i++;
-                        continue;
-                    }
-                }
-
-                // 8. Payments
-                let payR = line.match(/^(https?:\/\/[^\s]+)\.pay#([\d.]+)#(['"])([A-Za-z]+)\3/);
-                if (payR) {
-                    htmlBody += `<button onclick="window.open('${payR[1]}', '_blank')" style="background:#007bff; color:#fff; border:none; padding:8px 14px; border-radius:4px; margin:5px 0; cursor:pointer; ${disp}">دفع حقيقي (${payR[2]} ${payR[4]}) ↗</button>\n`;
-                    continue;
-                }
-                let payF = line.match(/^Fpay#([\d.]+)#(['"])([A-Za-z]+)\2/);
-                if (payF) {
-                    htmlBody += `<button onclick="alert('دفع تجريبي: ${payF[1]} ${payF[3]}')" style="background:#28a745; color:#fff; border:none; padding:8px 14px; border-radius:4px; margin:5px 0; cursor:pointer; ${disp}">دفع تجريبي (${payF[1]} ${payF[3]})</button>\n`;
+                // 7. قاعدة البيانات (SQL)
+                let sqlMatch = line.match(/^SQL\.\.\.(SAVE|LOAD|DELETE)\s+(\w+)(?:\s*=\s*(.+))?/i);
+                if (sqlMatch) {
+                    let [, action, key, value] = sqlMatch;
+                    sqlRules.push({ action: action.toUpperCase(), key: cleanQuotes(key), value: value ? cleanQuotes(value) : null });
                     continue;
                 }
             }
 
-            let scriptCode = `
-                let memory = {};
+            const runtimeScript = `
+                let memory = ${JSON.stringify(initialVars)};
+                const actions = ${JSON.stringify(runtimeActions)};
                 const mathRules = ${JSON.stringify(mathRules)};
-                const printVars = ${JSON.stringify(printVars)};
-                const aiRules = ${JSON.stringify(aiRules)};
+                const sqlRules = ${JSON.stringify(sqlRules)};
 
-                function promptInput(vName, promptTxt) {
-                    let r = prompt(promptTxt);
-                    if(r !== null) {
-                        memory[vName] = isNaN(r) ? r : parseFloat(r);
-                        let span = document.getElementById('v_' + vName);
-                        if(span) span.innerText = r;
-                        updateEngine();
+                function handleAsk(varName, promptTxt) {
+                    let val = prompt(promptTxt);
+                    if (val !== null) {
+                        val = val.trim();
+                        memory[varName] = isNaN(val) || val === '' ? val : parseFloat(val);
+                        let span = document.getElementById('v_' + varName);
+                        if (span) span.innerText = memory[varName];
+                        evaluateEngine();
                     }
                 }
 
-                function updateEngine() {
+                function triggerButton(actionKey) {
+                    let act = actions[actionKey];
+                    if (!act) return;
+
+                    if (act.type === 'b') {
+                        let btn = document.getElementById('btn_' + actionKey);
+                        if (btn) btn.style.display = 'none';
+                    }
+
+                    if (act.url) {
+                        window.open(act.url, '_blank');
+                    }
+
+                    if (act.nextLine) {
+                        executeSingleLine(act.nextLine);
+                    }
+                }
+
+                function executeSingleLine(lineStr) {
+                    let pMatch = lineStr.match(/^p(["'])(.*?)\\1(?:#([0-9a-fA-F]{3,6}))?/i);
+                    if (pMatch) {
+                        let [, , txt, color] = pMatch;
+                        let div = document.createElement('div');
+                        div.style.color = color ? '#' + color : '#ffffff';
+                        div.style.margin = '8px 0';
+                        div.style.fontSize = '1.1rem';
+                        div.style.fontWeight = 'bold';
+
+                        let displayValue = txt;
+                        if (memory[txt] !== undefined) {
+                            let raw = memory[txt];
+                            displayValue = Array.isArray(raw) ? raw.join(' / ') : raw;
+                        }
+
+                        div.innerText = displayValue;
+                        document.body.appendChild(div);
+                        return;
+                    }
+
+                    let mathMatch = lineStr.match(/^Math\\.\\.\\.(.+?)([\\+\\-\\*\÷\\^])(.+?)=((?:[a-zA-Z0-9_]+))/i);
+                    if (mathMatch) {
+                        let [, left, op, right, resVar] = mathMatch;
+                        let valL = memory[left] !== undefined ? memory[left] : parseFloat(left);
+                        let valR = memory[right] !== undefined ? memory[right] : parseFloat(right);
+                        if (!isNaN(valL) && !isNaN(valR)) {
+                            let res = 0;
+                            if (op === '+') res = valL + valR;
+                            else if (op === '-') res = valL - valR;
+                            else if (op === '*') res = valL * valR;
+                            else if (op === '÷') res = valL / valR;
+                            else if (op === '^') res = Math.pow(valL, valR);
+                            memory[resVar] = res;
+                            evaluateEngine();
+                        }
+                    }
+                }
+
+                function evaluateEngine() {
                     mathRules.forEach(rule => {
                         let valL = memory[rule.left] !== undefined ? memory[rule.left] : parseFloat(rule.left);
                         let valR = memory[rule.right] !== undefined ? memory[rule.right] : parseFloat(rule.right);
-                        
-                        if(!isNaN(valL) && !isNaN(valR)) {
+                        if (!isNaN(valL) && !isNaN(valR)) {
                             let res = 0;
-                            if(rule.op === '+') res = valL + valR;
-                            else if(rule.op === '-') res = valL - valR;
-                            else if(rule.op === '*') res = valL * valR;
-                            else if(rule.op === '÷' || rule.op === '/') res = valL / valR;
-                            else if(rule.op === '^') res = Math.pow(valL, valR);
+                            if (rule.op === '+') res = valL + valR;
+                            else if (rule.op === '-') res = valL - valR;
+                            else if (rule.op === '*') res = valL * valR;
+                            else if (rule.op === '÷') res = valL / valR;
+                            else if (rule.op === '^') res = Math.pow(valL, valR);
                             memory[rule.resVar] = res;
                         }
                     });
 
-                    aiRules.forEach(rule => {
-                        let val = memory[rule.target];
-                        if(typeof val === 'string' && val.includes(rule.trigger)) {
-                            memory[rule.target] = val.split(rule.oldW).join(rule.newW);
+                    sqlRules.forEach(rule => {
+                        if (rule.action === 'SAVE') {
+                            let v = memory[rule.value] !== undefined ? memory[rule.value] : rule.value;
+                            localStorage.setItem(rule.key, JSON.stringify(v));
+                        } else if (rule.action === 'LOAD') {
+                            let loaded = localStorage.getItem(rule.key);
+                            if (loaded !== null) memory[rule.key] = JSON.parse(loaded);
+                        } else if (rule.action === 'DELETE') {
+                            localStorage.removeItem(rule.key);
                         }
                     });
 
-                    printVars.forEach(pv => {
-                        if(memory[pv.target] !== undefined) {
-                            let el = document.getElementById(pv.id);
-                            if(el) el.innerText = memory[pv.target];
+                    document.querySelectorAll('.a137-print').forEach(el => {
+                        let target = el.getAttribute('data-target');
+                        if (memory[target] !== undefined) {
+                            let val = memory[target];
+                            el.innerText = Array.isArray(val) ? val.join(' / ') : val;
                         }
                     });
                 }
+
+                window.onload = evaluateEngine;
             `;
 
             return `<!DOCTYPE html>
@@ -350,11 +480,12 @@ https://checkout.pay#100.00#"SAR"</textarea>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${appName}</title>
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" type="image/png">
+    <link rel="icon" href="${appIcon}">
+    <style>body { background:#1a1a2e; color:#fff; padding:20px; font-family:sans-serif; }</style>
 </head>
-<body style="background:#2f3136; color:#fff; padding:20px; font-family:sans-serif;">
-    ${htmlBody}
-    <script>${scriptCode}<\/script>
+<body>
+    ${bodyHTML.join('\n    ')}
+    <script>${runtimeScript}<\/script>
 </body>
 </html>`;
         }
@@ -364,21 +495,130 @@ https://checkout.pay#100.00#"SAR"</textarea>
             if (currentLang === 'ar') {
                 guide.innerHTML = `
                     <div class="guide-section">
-                        <h3>1. التسمية الهيكلية والتعليقات</h3>
+                        <h3>1. اسم التطبيق والأيقونة والتعليقات</h3>
                         <ul>
                             <li><b>اسم التطبيق:</b> <code>webapp!اسم_التطبيق!</code></li>
-                            <li><b>التعليقات:</b> أي سطر يبدأ بـ <code>@</code> يُعتبر تعليقاً ولا يتم تنفيذه.</li>
+                            <li><b>أيقونة التطبيق (Favicon):</b> <code>icon!"رابط_الصورة"</code></li>
+                            <li><b>التعليقات:</b> تبدأ بـ <code>@</code> (يتم تجاهلها).</li>
                         </ul>
                     </div>
 
                     <div class="guide-section">
-                        <h3>2. الأزرار والتنقل وإخفاء العناصر</h3>
+                        <h3>2. المتغيرات والخيارات المتعددة</h3>
                         <ul>
-                            <li><b>زر مستمر:</b> <code>cp"نص الزر"gt</code></li>
-                            <li><b>زر مستمر بـ رابط:</b> <code>cp"نص الزر"gt"https://..."</code></li>
-                            <li><b>زر مخفي:</b> <code>cb"نص الزر"gt</code></li>
-                            <li><b>زر مخفي بـ رابط:</b> <code>cb"نص الزر"gt"https://..."</code></li>
+                            <li><b>خيارات متعددة:</b> <code>x = "نعم" | "أجل" | "yes"</code></li>
+                            <li><b>متغير عادي:</b> <code>x = "أنس"</code> أو <code>score = 100</code></li>
                         </ul>
                     </div>
 
-                    <div class="g
+                    <div class="guide-section">
+                        <h3>3. الطباعة والمدخلات (p / ask)</h3>
+                        <ul>
+                            <li><b>طباعة ملونة:</b> <code>p"النص"#HEX</code></li>
+                            <li><b>طباعة متغير:</b> <code>p"اسم_المتغير"</code></li>
+                            <li><b>إدخال وتخزين:</b> <code>ans = ask"أدخل إجابتك"</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-section">
+                        <h3>4. الحسابات والعمليات</h3>
+                        <ul>
+                            <li><b>جمع / طرح / ضرب / قسمة / أس:</b> <code>Math...a^b=res</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-section">
+                        <h3>5. الأزرار والتنفيذ المستمر</h3>
+                        <ul>
+                            <li><b>مستمر / يختفي:</b> <code>cp"نص"gt"URL"</code> أو <code>cb"نص"gt</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-section">
+                        <h3>6. الدفع والتخزين</h3>
+                        <ul>
+                            <li><b>دفع تجريبي / حقيقي:</b> <code>Pay#50.00#URLF</code></li>
+                            <li><b>تخزين البيانات:</b> <code>SQL...SAVE key = var</code></li>
+                        </ul>
+                    </div>
+                `;
+            } else {
+                guide.innerHTML = `
+                    <div class="guide-section">
+                        <h3>1. App Setup & Comments</h3>
+                        <ul>
+                            <li><b>App Name:</b> <code>webapp!AppName!</code></li>
+                            <li><b>Favicon Icon:</b> <code>icon!"Image_URL"</code></li>
+                            <li><b>Comments:</b> Starts with <code>@</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-section">
+                        <h3>2. Variable System & Multiple Options</h3>
+                        <ul>
+                            <li><b>Multiple Accepted Values:</b> <code>x = "yes" | "yeah" | "true"</code></li>
+                            <li><b>Standard Variable:</b> <code>x = "Anas"</code> or <code>score = 100</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-section">
+                        <h3>3. Print & Inputs (p / ask)</h3>
+                        <ul>
+                            <li><b>Colored Text:</b> <code>p"Text"#HEX</code></li>
+                            <li><b>Variable Value:</b> <code>p"varName"</code></li>
+                            <li><b>Input Prompt:</b> <code>ans = ask"Prompt"</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-section">
+                        <h3>4. Math Operations</h3>
+                        <ul>
+                            <li><b>Add / Sub / Mult / Div / Power:</b> <code>Math...a^b=res</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-section">
+                        <h3>5. Buttons (cp / cb)</h3>
+                        <ul>
+                            <li><b>Persistent / Fade:</b> <code>cp"Text"gt"URL"</code> or <code>cb"Text"gt</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-section">
+                        <h3>6. Payments & Database (Pay / SQL...)</h3>
+                        <ul>
+                            <li><b>Real / Test Payment:</b> <code>Pay#50.00#URLF</code></li>
+                            <li><b>Storage:</b> <code>SQL...SAVE key = var</code></li>
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
+        function runCompiler() {
+            const code = document.getElementById('codeEditor').value;
+            const compiled = parseA137(code);
+            
+            if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+            
+            const blob = new Blob([compiled], { type: 'text/html;charset=utf-8' });
+            currentBlobUrl = URL.createObjectURL(blob);
+            document.getElementById('previewFrame').src = currentBlobUrl;
+        }
+
+        function downloadHTML() {
+            const code = document.getElementById('codeEditor').value;
+            const compiled = parseA137(code);
+            const blob = new Blob([compiled], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'index.html';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        window.onload = runCompiler;
+    </script>
+</body>
+</html> 
